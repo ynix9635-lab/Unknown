@@ -39,6 +39,10 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         animator = GetComponent<Animator>();
     }
+    void attack()
+    {
+        animator.SetTrigger("attack");
+    }
     void AI()
     {
         if (MCC.mcc.iscrouch)
@@ -86,9 +90,16 @@ public class Enemy : MonoBehaviour, IDamageable
         {
             animator.SetBool("ischasing", false);
         }
+        if(Vector3.Distance(transform.position, MCC.mcc.transform.position) <= attackrange)
+        {
+            attack();
+        }
     }
     public void Update()
     {
-        AI();
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("attack"))
+        {
+            AI();
+        }
     }
 }
