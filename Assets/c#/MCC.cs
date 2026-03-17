@@ -172,6 +172,10 @@ public class MCC : MonoBehaviour
             }
         }
     }
+    public void Setscale(Vector3 scale)
+    {
+        transform.localScale = scale;
+    }
     void Update()
     { 
         camfwd = Camera.main.transform.forward;
