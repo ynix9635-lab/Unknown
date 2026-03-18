@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Cinemachine;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(CharacterController))]
@@ -21,7 +22,7 @@ public class MCC : MonoBehaviour
     Quaternion targetrotation;
     Vector3 movevector;
     bool airjump = true;
-    public bool isGrounded;
+    bool isGrounded;
     float lastjumptime;
     float speed;
     const float jumpinterval = 0.2f;
@@ -38,6 +39,9 @@ public class MCC : MonoBehaviour
     Animator animator;
     CharacterController controller;
     [SerializeField]Transform groundCheck;
+    [SerializeField] CinemachineVirtualCamera xfreelookcamera;
+    [SerializeField] CinemachineFreeLook freelookcamera;
+    [SerializeField] CinemachineVirtualCamera povcamera;
     static public MCC mcc;
 
     //methods
@@ -113,6 +117,36 @@ public class MCC : MonoBehaviour
                 animator.SetBool("isrunning", false);
                 speed = walkspeed;
             }
+        }
+    }
+    public void Onxfreecam(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            xfreelookcamera.Priority = 1;
+            freelookcamera.Priority = 0;
+            povcamera.Priority = 0;
+            Camerascript.camerascript.SwitchPOVmode(false);
+        }
+    }
+    public void Onfreecam(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            xfreelookcamera.Priority = 0;
+            freelookcamera.Priority = 1;
+            povcamera.Priority = 0;
+            Camerascript.camerascript.SwitchPOVmode(false);
+        }
+    }
+    public void Onpovcam(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            xfreelookcamera.Priority = 0;
+            freelookcamera.Priority = 0;
+            povcamera.Priority = 1;
+            Camerascript.camerascript.SwitchPOVmode(true);
         }
     }
     public void OnMove(InputAction.CallbackContext context)

@@ -8,6 +8,7 @@ public class Gamemanagement : MonoBehaviour
     [Header("Settings")]
     [SerializeField] GameObject basic_ui;
     [SerializeField] Image jumpcdfill;
+    [SerializeField] Button quitgamebutton;
     float jumpstart;
     bool isjumpcd = true;
     [SerializeField] GameObject menu;
@@ -20,7 +21,12 @@ public class Gamemanagement : MonoBehaviour
     }
     void Start()
     {
+        quitgamebutton.onClick.AddListener(Quitgame);
         playerInput.SwitchCurrentActionMap("Player");
+    }
+    public void Quitgame()
+    {
+        Application.Quit();
     }
     public void OnMenu(InputAction.CallbackContext context)
     {
