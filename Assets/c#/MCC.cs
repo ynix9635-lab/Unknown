@@ -7,7 +7,6 @@ using Unity.VisualScripting;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(Transform))]
 public class MCC : MonoBehaviour
 {
     //class fields
@@ -17,10 +16,12 @@ public class MCC : MonoBehaviour
     Vector3 movedirection;
     Vector2 moveinput;
     Vector3 checkboxhalf;
+    Vector3 normalsize;
+    Vector3 checkboxhalfnormal;
     Quaternion targetrotation;
     Vector3 movevector;
     bool airjump = true;
-    bool isGrounded;
+    public bool isGrounded;
     float lastjumptime;
     float speed;
     const float jumpinterval = 0.2f;
@@ -42,9 +43,9 @@ public class MCC : MonoBehaviour
     //methods
     void Awake()
     {
-        checkboxhalf.x = 0.1f;
-        checkboxhalf.y = 0.004f;
-        checkboxhalf.z = 0.1f;
+        normalsize = new(1f,1f,1f);
+        checkboxhalfnormal = new(0.1f, 0.004f, 0.1f);
+        checkboxhalf = checkboxhalfnormal;
         mcc = this;
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
@@ -172,9 +173,10 @@ public class MCC : MonoBehaviour
             }
         }
     }
-    public void Setscale(Vector3 scale)
+    public void Setscale(float scale)
     {
-        transform.localScale = scale;
+        checkboxhalf = checkboxhalfnormal * scale;
+        transform.localScale = normalsize * scale;
     }
     void Update()
     { 

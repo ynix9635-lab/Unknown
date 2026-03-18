@@ -90,7 +90,7 @@ public class Enemy : MonoBehaviour, IDamageable
         {
             animator.SetBool("ischasing", false);
         }
-        if(Vector3.Distance(transform.position, MCC.mcc.transform.position) <= attackrange)
+        if(Vector3.Distance(transform.position, MCC.mcc.transform.position) <= attackrange && iseeplayer)
         {
             attack();
         }

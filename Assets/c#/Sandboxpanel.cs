@@ -20,22 +20,16 @@ public class Sandboxpanel : MonoBehaviour
         flymodebutton.onClick.AddListener(ToggleFlymode);
         killdummybutton.onClick.AddListener(dummy.Die);
         resetdummybutton.onClick.AddListener(dummy.Respawn);
-        antmodebutton.onClick.AddListener(setscaleheroant);
-        giantmodebutton.onClick.AddListener(setscaleherogiant);
+        antmodebutton.onClick.AddListener(Setscaleheroant);
+        giantmodebutton.onClick.AddListener(Setscaleherogiant);
     }
-    void setscaleherogiant()
+    void Setscaleherogiant()
     {
-        scale.x = 1.3f;
-        scale.z = 1.3f;
-        scale.y = 1.3f;
-        MCC.mcc.Setscale(scale);
+        MCC.mcc.Setscale(1.3f);
     }
-    void setscaleheroant()
+    void Setscaleheroant()
     {
-        scale.x = 0.1f;
-        scale.z = 0.1f;
-        scale.y = 0.1f;
-        MCC.mcc.Setscale(scale);
+        MCC.mcc.Setscale(0.3f);
     }
     void Respawn()
     { 

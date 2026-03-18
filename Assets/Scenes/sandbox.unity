@@ -3377,37 +3377,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1354023638}
   m_CullTransparentMesh: 1
---- !u!1 &1405538316
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1405538317}
-  m_Layer: 8
-  m_Name: groundcheck
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1405538317
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1405538316}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.01, z: 0.08}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 9023759897614717045}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1442825000 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5597794954540060943, guid: f4b093aea2b30d643b5daba87fe1a8e1, type: 3}
@@ -4294,6 +4263,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1844791456}
   m_CullTransparentMesh: 1
+--- !u!1 &1920168249
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1920168250}
+  m_Layer: 8
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1920168250
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920168249}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.01, z: 0.08}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9023759897614717045}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1971746462
 GameObject:
   m_ObjectHideFlags: 0
@@ -6301,7 +6301,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e71617ccde478d488e1bb5735889ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Movement
-  groundCheck: {fileID: 1405538317}
+  isGrounded: 0
+  groundCheck: {fileID: 1920168250}
 --- !u!1 &5251425356793682287
 GameObject:
   m_ObjectHideFlags: 0
@@ -7419,7 +7420,7 @@ Transform:
   m_Children:
   - {fileID: 110901707039719659}
   - {fileID: 837432752151195730}
-  - {fileID: 1405538317}
+  - {fileID: 1920168250}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9105700048515974575
@@ -7464,7 +7465,7 @@ SceneRoots:
   - {fileID: 118314081}
   - {fileID: 9023759897614717045}
   - {fileID: 445421531}
-  - {fileID: 1756637492}
-  - {fileID: 357168901}
   - {fileID: 387188029}
   - {fileID: 517078753}
+  - {fileID: 357168901}
+  - {fileID: 1756637492}
