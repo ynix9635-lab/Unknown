@@ -24,8 +24,10 @@ public class MCC : MonoBehaviour
     bool airjump = true;
     bool isGrounded;
     float lastjumptime;
+    float lastkicktime;
     float speed;
     const float jumpinterval = 0.2f;
+    public const float kickcd = 4f;
     public const float jumpcd = 2f;
     Vector3 inertia;
     public bool iscrouch { get; private set; }
@@ -39,9 +41,6 @@ public class MCC : MonoBehaviour
     Animator animator;
     CharacterController controller;
     [SerializeField]Transform groundCheck;
-    [SerializeField] CinemachineVirtualCamera xfreelookcamera;
-    [SerializeField] CinemachineFreeLook freelookcamera;
-    [SerializeField] CinemachineVirtualCamera povcamera;
     static public MCC mcc;
 
     //methods
@@ -119,36 +118,6 @@ public class MCC : MonoBehaviour
             }
         }
     }
-    public void Onxfreecam(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            xfreelookcamera.Priority = 1;
-            freelookcamera.Priority = 0;
-            povcamera.Priority = 0;
-            Camerascript.camerascript.SwitchPOVmode(false);
-        }
-    }
-    public void Onfreecam(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            xfreelookcamera.Priority = 0;
-            freelookcamera.Priority = 1;
-            povcamera.Priority = 0;
-            Camerascript.camerascript.SwitchPOVmode(false);
-        }
-    }
-    public void Onpovcam(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            xfreelookcamera.Priority = 0;
-            freelookcamera.Priority = 0;
-            povcamera.Priority = 1;
-            Camerascript.camerascript.SwitchPOVmode(true);
-        }
-    }
     public void OnMove(InputAction.CallbackContext context)
     {
         moveinput = context.ReadValue<Vector2>().normalized;
@@ -164,6 +133,17 @@ public class MCC : MonoBehaviour
         {
             g = 0f;
             speed = runspeed;
+        }
+    }
+    public void OnKick(InputAction.CallbackContext context)
+    {
+        if (context.performed && Time.time - lastkicktime > kickcd)
+        {
+            lastkicktime = Time.time;
+            iscrouch = false;
+            animator.SetBool("crouch", false);
+            animator.SetTrigger("kick");
+            Gamemanagement.gamemanagement.OnKick();
         }
     }
     public void OnJump(InputAction.CallbackContext context)

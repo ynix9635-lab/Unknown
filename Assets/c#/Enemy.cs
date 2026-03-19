@@ -1,8 +1,13 @@
+using JetBrains.Annotations;
 using UnityEngine;
 [RequireComponent(typeof(Animator))]
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : MonoBehaviour, IDamageable, IKickable
 {
+    [SerializeField] Transform groundcheck;
     [SerializeField] float maxhealth;
+    Vector3 checkboxhalfnormal;
+    Vector3 inertia;
+    bool isgrounded;
     float health;
     float detectrange;
     const float detectcrouchrange = 5f;
@@ -14,10 +19,21 @@ public class Enemy : MonoBehaviour, IDamageable
     const float detectangle = 120f;
     const float attackrange = 1f;
     const float chasespeed = 4f;
+    const float g = 20;
+    public Vector3 movevector;
     Animator animator;
+    void Awake()
+    {
+        animator = GetComponent<Animator>();
+        checkboxhalfnormal = new(0.1f, 0.004f, 0.1f);
+    }
     void Start()
     {
         health = maxhealth;
+    }
+    public void Getkicked(float kickpower)
+    {
+        inertia = MCC.mcc.transform.forward * kickpower;
     }
     public void Takedamage(float damage)
     {
@@ -35,11 +51,7 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         gameObject.SetActive(false);
     }
-    private void Awake()
-    {
-        animator = GetComponent<Animator>();
-    }
-    void attack()
+    void Attack()
     {
         animator.SetTrigger("attack");
     }
@@ -92,11 +104,28 @@ public class Enemy : MonoBehaviour, IDamageable
         }
         if(Vector3.Distance(transform.position, MCC.mcc.transform.position) <= attackrange && iseeplayer)
         {
-            attack();
+            Attack();
         }
     }
-    public void Update()
+    void Update()
     {
+        isgrounded = Physics.CheckBox(groundcheck.position, checkboxhalfnormal, transform.rotation, ~LayerMask.GetMask("enemy"));
+        if(isgrounded && movevector.y <= 0)
+        {
+            inertia.x -= inertia.x * Time.deltaTime * 2;
+            inertia.z -= inertia.z * Time.deltaTime * 2;
+            if (inertia.x < 0.01f && inertia.z < 0.01f)
+            {
+                inertia.x = 0f;
+                inertia.z = 0f;
+            }
+            movevector.y = 0;
+        }
+        else
+        {
+            movevector.y += -g * Time.deltaTime;
+        }
+        transform.position += movevector * Time.deltaTime + inertia;
         if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("attack"))
         {
             AI();
