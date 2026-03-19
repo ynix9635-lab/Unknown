@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class settingspanel : MonoBehaviour
+public class Settingspanel : MonoBehaviour
 {
     [SerializeField] Button camerabutton;
     [SerializeField] GameObject camerapanel;

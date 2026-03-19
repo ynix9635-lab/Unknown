@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class menu : MonoBehaviour
+public class Menu : MonoBehaviour
 {
     [SerializeField] Button sandboxbutton;
     [SerializeField] GameObject sandboxpanel;
