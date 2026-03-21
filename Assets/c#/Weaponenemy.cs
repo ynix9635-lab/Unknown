@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(Collider))]
-public class Weapon : MonoBehaviour
+public class Weaponenemy : MonoBehaviour
 {
     [SerializeField] float damage;
     Collider weapon;
@@ -27,7 +27,7 @@ public class Weapon : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("enemy") && !alreadyhit.Contains(other.gameObject))
+        if (other.CompareTag("Hero") && !alreadyhit.Contains(other.gameObject))
         {
             IDamageable hitobject = other.gameObject.GetComponent<IDamageable>();
             hitobject.Takedamage(damage);
@@ -36,12 +36,12 @@ public class Weapon : MonoBehaviour
     }
     private void Update()
     {
-        if (holderanimator.GetCurrentAnimatorStateInfo(0).IsTag("Attack") && !ishitboxon)
+        if (holderanimator.GetCurrentAnimatorStateInfo(0).IsTag("attack") && !ishitboxon)
         {
             Enablefistcollider();
-            ishitboxon=true;
+            ishitboxon = true;
         }
-        else if (!holderanimator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+        else if (!holderanimator.GetCurrentAnimatorStateInfo(0).IsTag("attack"))
         {
             Disablefistcollider();
             ishitboxon = false;

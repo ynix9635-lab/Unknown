@@ -1,34 +1,37 @@
 using JetBrains.Annotations;
 using UnityEngine;
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(CharacterController))]
 public class Enemy : MonoBehaviour, IDamageable, IKickable
 {
     [SerializeField] Transform groundcheck;
     [SerializeField] float maxhealth;
     Vector3 checkboxhalfnormal;
     Vector3 inertia;
+    Vector3 targetdirection;
+    Vector3 movevector;
+    Quaternion targetrotation;
+    CharacterController controller;
     bool isgrounded;
+    bool iseeplayer;
     float health;
     float detectrange;
     const float detectcrouchrange = 5f;
     const float detectnotcrouchrange = 10f;
-    Vector3 targetdirection;
-    bool iseeplayer;
-    Quaternion targetrotation;
     const float rotatespeed = 10f;
     const float detectangle = 120f;
-    const float attackrange = 1f;
+    const float attackrange = 1.2f;
     const float chasespeed = 4f;
     const float g = 20;
-    public Vector3 movevector;
     Animator animator;
     void Awake()
     {
-        animator = GetComponent<Animator>();
-        checkboxhalfnormal = new(0.1f, 0.004f, 0.1f);
+        checkboxhalfnormal = new(0.1f, 0.014f, 0.1f);
     }
     void Start()
     {
+        controller = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
         health = maxhealth;
     }
     public void Getkicked(float kickpower)
@@ -96,7 +99,7 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
         if (iseeplayer && Vector3.Distance(transform.position, MCC.mcc.transform.position) > attackrange)
         {
             animator.SetBool("ischasing", true);
-            transform.position += chasespeed * Time.deltaTime * transform.forward;
+            controller.Move(chasespeed * Time.deltaTime * transform.forward);
         }
         else
         {
@@ -125,8 +128,9 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
         {
             movevector.y += -g * Time.deltaTime;
         }
-        transform.position += movevector * Time.deltaTime + inertia;
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("attack"))
+        controller.Move(movevector * Time.deltaTime + inertia);
+        Physics.SyncTransforms();
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("attack") && MCC.mcc.gameObject.activeSelf)
         {
             AI();
         }

@@ -7,19 +7,10 @@ using UnityEngine.UI;
 public class Gamemanagement : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] GameObject basic_ui;
-    [SerializeField] Image jumpcdfill;
-    [SerializeField] Image kickcdfill;
-    [SerializeField] GameObject jump;
-    [SerializeField] GameObject kick;
     [SerializeField] Button quitgamebutton;
     [SerializeField] CinemachineVirtualCamera xfreelookcamera;
     [SerializeField] CinemachineFreeLook freelookcamera;
     [SerializeField] CinemachineVirtualCamera povcamera;
-    float jumpstart;
-    float kickstart;
-    bool isjumpcd = true;
-    bool iskickcd = true;
     [SerializeField] GameObject menu;
     [SerializeField] PlayerInput playerInput;
     bool ismenuopen = false;
@@ -74,21 +65,6 @@ public class Gamemanagement : MonoBehaviour
             Openmenu();
         }
     }
-    public void OnKick()
-    {
-        iskickcd = true;
-        kickstart = Time.time;
-        kick.SetActive(true);
-    }
-    public void OnJump()
-    {
-        if (!isjumpcd)
-        {
-            isjumpcd = true;
-            jumpstart = Time.time;
-            jump.SetActive(true);
-        }
-    }
     public void Respawn()
     {
         playerInput.SwitchCurrentActionMap("Player");
@@ -113,35 +89,6 @@ public class Gamemanagement : MonoBehaviour
             Time.timeScale = 1f;
             playerInput.SwitchCurrentActionMap("Player");
 
-        }
-    }
-    void Update()
-    {
-        if (iskickcd)
-        {
-            if(Time.time - kickstart < MCC.kickcd)
-            {
-                kickcdfill.fillAmount = 1 - ((Time.time - kickstart) / MCC.kickcd);
-            }
-            else
-            {
-                kickcdfill.fillAmount = 0f;
-                iskickcd = false;
-                kick.SetActive(false);
-            }
-        }
-        if (isjumpcd)
-        {
-            if (Time.time - jumpstart < MCC.jumpcd)
-            {
-                jumpcdfill.fillAmount = 1 - ((Time.time - jumpstart)/MCC.jumpcd);
-            }
-            else
-            {
-                jumpcdfill.fillAmount = 0f;
-                isjumpcd = false;
-                jump.SetActive(false);
-            }
         }
     }
 }
