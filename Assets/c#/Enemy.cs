@@ -9,10 +9,10 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
     Vector3 checkboxhalfnormal;
     Vector3 inertia;
     Vector3 targetdirection;
-    public Vector3 movevector;
+    Vector3 movevector;
     Quaternion targetrotation;
     CharacterController controller;
-    public bool isgrounded;
+    bool isgrounded;
     bool iseeplayer;
     float health;
     float detectrange;
@@ -128,7 +128,7 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
         {
             movevector.y += -g * Time.deltaTime;
         }
-        controller.Move(movevector * Time.deltaTime + inertia);
+        controller.Move(movevector * Time.deltaTime + (inertia * Time.deltaTime));
         if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("attack") && MCC.mcc.gameObject.activeSelf)
         {
             AI();

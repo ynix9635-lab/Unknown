@@ -1,4 +1,6 @@
 using Cinemachine;
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -7,6 +9,7 @@ using UnityEngine.UI;
 public class Gamemanagement : MonoBehaviour
 {
     [Header("Settings")]
+    [SerializeField] TMP_Text fps;
     [SerializeField] Button mainmenubutton;
     [SerializeField] Button mainmenubutton2;
     [SerializeField] CinemachineVirtualCamera xfreelookcamera;
@@ -16,6 +19,8 @@ public class Gamemanagement : MonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField] GameObject deathpanel;
     bool ismenuopen = false;
+    float lastfpsshow;
+    int fpscount = 0;
     public static Gamemanagement gamemanagement;
     void Awake()
     {
@@ -106,5 +111,15 @@ public class Gamemanagement : MonoBehaviour
     public void OnHeroRespawnButton()
     {
         deathpanel.SetActive(false);
+    }
+    private void Update()
+    {
+        fpscount++;
+        if (Time.time - lastfpsshow > 1f)
+        {
+            fps.text = Convert.ToString(fpscount);
+            fpscount = 0;
+            lastfpsshow = Time.time;
+        }
     }
 }

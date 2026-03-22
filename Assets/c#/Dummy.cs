@@ -47,6 +47,6 @@ public class Dummy : MonoBehaviour, IDamageable, IKickable
             inertia.x = 0f;
             inertia.z = 0f;
         }
-        transform.position = transform.position + inertia;
+        transform.position = transform.position + inertia * Time.deltaTime;
     }
 }
