@@ -7,12 +7,14 @@ using UnityEngine.UI;
 public class Gamemanagement : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] Button quitgamebutton;
+    [SerializeField] Button mainmenubutton;
+    [SerializeField] Button mainmenubutton2;
     [SerializeField] CinemachineVirtualCamera xfreelookcamera;
     [SerializeField] CinemachineFreeLook freelookcamera;
     [SerializeField] CinemachineVirtualCamera povcamera;
     [SerializeField] GameObject menu;
     [SerializeField] PlayerInput playerInput;
+    [SerializeField] GameObject deathpanel;
     bool ismenuopen = false;
     public static Gamemanagement gamemanagement;
     void Awake()
@@ -21,8 +23,14 @@ public class Gamemanagement : MonoBehaviour
     }
     void Start()
     {
-        quitgamebutton.onClick.AddListener(Quitgame);
+        mainmenubutton.onClick.AddListener(Loadmainmenu);
+        mainmenubutton2.onClick.AddListener(Loadmainmenu);
         playerInput.SwitchCurrentActionMap("Player");
+    }
+    void Loadmainmenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("mainmenu");
     }
     public void Onxfreecam(InputAction.CallbackContext context)
     {
@@ -54,10 +62,6 @@ public class Gamemanagement : MonoBehaviour
             Camerascript.camerascript.SwitchPOVmode(true);
         }
     }
-    public void Quitgame()
-    {
-        Application.Quit();
-    }
     public void OnMenu(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -65,11 +69,11 @@ public class Gamemanagement : MonoBehaviour
             Openmenu();
         }
     }
-    public void Respawn()
+    public void ResetScene()
     {
         playerInput.SwitchCurrentActionMap("Player");
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene("sandbox");
     }
     void Openmenu()
     {
@@ -90,5 +94,17 @@ public class Gamemanagement : MonoBehaviour
             playerInput.SwitchCurrentActionMap("Player");
 
         }
+    }
+    public void OnHeroDeath()
+    {
+        deathpanel.SetActive(true);
+        playerInput.SwitchCurrentActionMap("UI");
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        Time.timeScale = 0f;
+    }
+    public void OnHeroRespawnButton()
+    {
+        deathpanel.SetActive(false);
     }
 }

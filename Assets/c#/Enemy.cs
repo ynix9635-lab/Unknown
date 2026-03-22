@@ -9,10 +9,10 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
     Vector3 checkboxhalfnormal;
     Vector3 inertia;
     Vector3 targetdirection;
-    Vector3 movevector;
+    public Vector3 movevector;
     Quaternion targetrotation;
     CharacterController controller;
-    bool isgrounded;
+    public bool isgrounded;
     bool iseeplayer;
     float health;
     float detectrange;
@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
     Animator animator;
     void Awake()
     {
-        checkboxhalfnormal = new(0.1f, 0.014f, 0.1f);
+        checkboxhalfnormal = new(0.1f, 0.03f, 0.1f);
     }
     void Start()
     {
@@ -117,7 +117,7 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
         {
             inertia.x -= inertia.x * Time.deltaTime * 2;
             inertia.z -= inertia.z * Time.deltaTime * 2;
-            if (inertia.x < 0.01f && inertia.z < 0.01f)
+            if ((inertia.x < 0.001f && inertia.z < 0.001f && inertia.x > -0.001f && inertia.z > -0.001f) || Time.timeScale == 0f)
             {
                 inertia.x = 0f;
                 inertia.z = 0f;
@@ -129,7 +129,6 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
             movevector.y += -g * Time.deltaTime;
         }
         controller.Move(movevector * Time.deltaTime + inertia);
-        Physics.SyncTransforms();
         if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("attack") && MCC.mcc.gameObject.activeSelf)
         {
             AI();

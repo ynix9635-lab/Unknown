@@ -19,10 +19,11 @@ public class MCC : MonoBehaviour, IDamageable
     Vector3 movedirection;
     Vector2 moveinput;
     Vector3 checkboxhalf;
-    Vector3 normalsize;
-    Vector3 checkboxhalfnormal;
+    Vector3 normalsize = new(1f, 1f, 1f);
+    Vector3 checkboxhalfnormal = new(0.1f, 0.004f, 0.1f);
     Vector3 movevector;
     Vector3 inertia;
+    Vector3 baseposition = new(0f, 2.5f, 0f);
     Quaternion targetrotation;
     float maxstamina = 100f;
     float stamina;
@@ -61,7 +62,6 @@ public class MCC : MonoBehaviour, IDamageable
     [SerializeField] GameObject kickcdicon;
     [SerializeField] Image staminafill;
     [SerializeField] Image hpfill;
-    [SerializeField] GameObject deathpanel;
     static public MCC mcc;
 
     //methods
@@ -69,8 +69,6 @@ public class MCC : MonoBehaviour, IDamageable
     {
         stamina = maxstamina;
         health = maxhealth;
-        normalsize = new(1f,1f,1f);
-        checkboxhalfnormal = new(0.1f, 0.004f, 0.1f);
         checkboxhalf = checkboxhalfnormal;
         mcc = this;
         controller = GetComponent<CharacterController>();
@@ -80,6 +78,7 @@ public class MCC : MonoBehaviour, IDamageable
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
     public void OnAttack(InputAction.CallbackContext context)
     {
@@ -88,12 +87,38 @@ public class MCC : MonoBehaviour, IDamageable
             && !animator.GetAnimatorTransitionInfo(0).IsName("walk -> Attack")
             && !animator.GetAnimatorTransitionInfo(0).IsName("Crouchidle -> Attack")
             && !animator.GetAnimatorTransitionInfo(0).IsName("CrouchWalk -> Attack"))
-            || animator.GetAnimatorTransitionInfo(0).IsName("Attack -> idle")))
+            || animator.GetAnimatorTransitionInfo(0).IsName("Attack -> idle"))
+            && stamina > 0)
         {
+            Changestamina(staminattackdrain);
             iscrouch = false;
             animator.SetTrigger("attack");
             animator.SetBool("crouch", false);
         }
+    }
+    public void Setmaxhp(float value)
+    {
+        maxhealth = value;
+        health = maxhealth;
+        hpfill.fillAmount = 1f;
+    }
+    public void Setmaxstamina(float value)
+    {
+        maxstamina = value;
+        stamina = maxstamina;
+        hpfill.fillAmount = 1f;
+    }
+    public void Respawn()
+    {
+        transform.position = baseposition;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        health = maxhealth;
+        stamina = maxstamina;
+        staminafill.fillAmount = 1f;
+        hpfill.fillAmount = 1f;
+        gameObject.SetActive(true);
+        Time.timeScale = 1f;
     }
     public void OnCrouch(InputAction.CallbackContext context)
     {
@@ -160,8 +185,9 @@ public class MCC : MonoBehaviour, IDamageable
     }
     public void OnKick(InputAction.CallbackContext context)
     {
-        if (context.performed && Time.time - lastkicktime > kickcd)
+        if (context.performed && Time.time - lastkicktime > kickcd && stamina > 0)
         {
+            Changestamina(staminakickdrain);
             kickcdicon.SetActive(true);
             lastkicktime = Time.time;
             iscrouch = false;
@@ -231,7 +257,8 @@ public class MCC : MonoBehaviour, IDamageable
     }
     void Died()
     {
-        Time.timeScale = 0f;
+        Gamemanagement.gamemanagement.OnHeroDeath();
+        gameObject.SetActive(false);
     }
     void Changestamina(float value)
     {
@@ -258,7 +285,7 @@ public class MCC : MonoBehaviour, IDamageable
             }
             else
             {
-                Changestamina(staminarecoveryspeed * Time.deltaTime * 3);
+                Changestamina(staminarecoveryspeed * Time.deltaTime * 2.5f);
             }
         }
         if (isjumpcd)
@@ -305,6 +332,10 @@ public class MCC : MonoBehaviour, IDamageable
         }
         movedirection = (moveinput.y * camfwd + camright * moveinput.x).normalized;
         isGrounded = Physics.CheckBox(groundCheck.position, checkboxhalf, transform.rotation, ~LayerMask.GetMask("Hero"));
+        if(isGrounded && movevector.y < -10f)
+        {
+            Takedamage(-(movevector.y*0.02f));
+        }
         animator.SetFloat("speed", moveinput.magnitude);
         if (isGrounded && movevector.y <= 0f)
         {

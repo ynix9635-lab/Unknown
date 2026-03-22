@@ -1,7 +1,9 @@
 using UnityEngine;
 [RequireComponent(typeof(Animator))]
-public class Dummy : MonoBehaviour, IDamageable
+public class Dummy : MonoBehaviour, IDamageable, IKickable
 {
+    Vector3 baseposition = new(0f, 0f, 5f);
+    Vector3 inertia;
     const float Maxhealth = 10;
     float health = Maxhealth;
     Animator animator;
@@ -19,6 +21,7 @@ public class Dummy : MonoBehaviour, IDamageable
     }
     public void Respawn()
     {
+        transform.position = baseposition;
         gameObject.SetActive(true);
         health = Maxhealth;
     }
@@ -29,5 +32,21 @@ public class Dummy : MonoBehaviour, IDamageable
     void Died()
     {
         gameObject.SetActive(false);
+    }
+
+    public void Getkicked(float kickpower)
+    {
+        inertia = MCC.mcc.transform.forward * kickpower;
+    }
+    void Update()
+    {
+        inertia.x -= inertia.x * Time.deltaTime * 2;
+        inertia.z -= inertia.z * Time.deltaTime * 2;
+        if ((inertia.x < 0.001f && inertia.z < 0.001f && inertia.x > -0.001f && inertia.z > -0.001f) || Time.timeScale == 0f)
+        {
+            inertia.x = 0f;
+            inertia.z = 0f;
+        }
+        transform.position = transform.position + inertia;
     }
 }

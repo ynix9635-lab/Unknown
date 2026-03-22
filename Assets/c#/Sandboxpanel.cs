@@ -3,8 +3,7 @@ using UnityEngine.UI;
 
 public class Sandboxpanel : MonoBehaviour
 {
-    [SerializeField] Gamemanagement gamemanager;
-    [SerializeField] MCC mcc;
+    [SerializeField] Takedata takedata;
     [SerializeField] Dummy dummy;
     [SerializeField] Button antmodebutton;
     [SerializeField] Button giantmodebutton;
@@ -12,16 +11,28 @@ public class Sandboxpanel : MonoBehaviour
     [SerializeField] Button flymodebutton;
     [SerializeField] Button killdummybutton;
     [SerializeField] Button resetdummybutton;
+    [SerializeField] Button setmaxhpbutton;
+    [SerializeField] Button setmaxstaminabutton;
     Vector3 scale = new(0.1f,0.1f,0.1f);
 
     void Start()
     {
-        respawnbutton.onClick.AddListener(Respawn);
-        flymodebutton.onClick.AddListener(ToggleFlymode);
+        respawnbutton.onClick.AddListener(Gamemanagement.gamemanagement.ResetScene);
+        flymodebutton.onClick.AddListener(MCC.mcc.ToggleFlyMode);
         killdummybutton.onClick.AddListener(dummy.Die);
         resetdummybutton.onClick.AddListener(dummy.Respawn);
         antmodebutton.onClick.AddListener(Setscaleheroant);
         giantmodebutton.onClick.AddListener(Setscaleherogiant);
+        setmaxhpbutton.onClick.AddListener(Setmaxhp);
+        setmaxstaminabutton.onClick.AddListener(Setmaxstamina);
+    }
+    void Setmaxhp()
+    {
+        takedata.Takedatastart(true);
+    }
+    void Setmaxstamina()
+    {
+        takedata.Takedatastart(false);
     }
     void Setscaleherogiant()
     {
@@ -30,13 +41,5 @@ public class Sandboxpanel : MonoBehaviour
     void Setscaleheroant()
     {
         MCC.mcc.Setscale(0.3f);
-    }
-    void Respawn()
-    { 
-        gamemanager.Respawn();
-    }
-    void ToggleFlymode()
-    {
-        mcc.ToggleFlyMode();
     }
 }

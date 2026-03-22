@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f4b093aea2b30d643b5daba87fe1a8e1
+guid: 2bb26c1bcd937fe42a419a0827a7d5a0
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -151,7 +151,7 @@ ModelImporter:
       takeName: RunJump
       internalID: 8748424939332717376
       firstFrame: 0
-      lastFrame: 21.8
+      lastFrame: 27
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -237,8 +237,8 @@ ModelImporter:
       name: KickMelee
       takeName: KickMelee
       internalID: -3040229603423999547
-      firstFrame: 12
-      lastFrame: 34
+      firstFrame: 11
+      lastFrame: 37
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -266,8 +266,8 @@ ModelImporter:
       name: AttackMelee
       takeName: AttackMelee
       internalID: -7606426338799472384
-      firstFrame: 7
-      lastFrame: 38
+      firstFrame: 9
+      lastFrame: 37
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -316,7 +316,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.70188504
+      - time: 0.8336753
         functionName: Died
         data: 
         objectReferenceParameter: {instanceID: 0}
