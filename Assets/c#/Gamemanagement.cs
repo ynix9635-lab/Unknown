@@ -37,6 +37,10 @@ public class Gamemanagement : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene("mainmenu");
     }
+    public void switchactionmap(string actionmap)
+    {
+        playerInput.SwitchCurrentActionMap(actionmap);
+    }
     public void Onxfreecam(InputAction.CallbackContext context)
     {
         if (context.performed)
