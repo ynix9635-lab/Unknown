@@ -5,6 +5,7 @@ public class Sandboxpanel : MonoBehaviour
 {
     [SerializeField] Takedata takedata;
     [SerializeField] Dummy dummy;
+    [SerializeField] Enemy enemy;
     [SerializeField] Button antsizebutton;
     [SerializeField] Button normalsizebutton;
     [SerializeField] Button giantsizebutton;
@@ -15,6 +16,8 @@ public class Sandboxpanel : MonoBehaviour
     [SerializeField] Button setmaxhpbutton;
     [SerializeField] Button setmaxstaminabutton;
     [SerializeField] Button settimebutton;
+    [SerializeField] Button killenemybutton;
+    [SerializeField] Button spawnenemybutton;
     [SerializeField] GameObject settimepanel;
     Vector3 scale = new(0.1f,0.1f,0.1f);
 
@@ -30,6 +33,8 @@ public class Sandboxpanel : MonoBehaviour
         giantsizebutton.onClick.AddListener(Setscaleherogiant);
         setmaxhpbutton.onClick.AddListener(Setmaxhp);
         setmaxstaminabutton.onClick.AddListener(Setmaxstamina);
+        spawnenemybutton.onClick.AddListener(enemy.Spawn);
+        killenemybutton.onClick.AddListener(enemy.Die);
     }
     void Settime()
     {

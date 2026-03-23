@@ -34,6 +34,15 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
         animator = GetComponent<Animator>();
         health = maxhealth;
     }
+    public void Spawn()
+    {
+
+        gameObject.SetActive(false);
+        Vector3 pos = new(2,3,5);
+        transform.position = pos;
+        health = maxhealth;
+        gameObject.SetActive(true);
+    }
     public void Getkicked(float kickpower)
     {
         inertia = MCC.mcc.transform.forward * kickpower;

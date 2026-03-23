@@ -334,7 +334,7 @@ public class MCC : MonoBehaviour, IDamageable
         isGrounded = Physics.CheckBox(groundCheck.position, checkboxhalf, transform.rotation, ~LayerMask.GetMask("Hero"));
         if(isGrounded && movevector.y < -10f)
         {
-            Takedamage(-(movevector.y*0.02f));
+            Takedamage(-(movevector.y*0.2f));
         }
         animator.SetFloat("speed", moveinput.magnitude);
         if (isGrounded && movevector.y <= 0f)
