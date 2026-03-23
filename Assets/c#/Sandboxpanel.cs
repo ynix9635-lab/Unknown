@@ -5,8 +5,9 @@ public class Sandboxpanel : MonoBehaviour
 {
     [SerializeField] Takedata takedata;
     [SerializeField] Dummy dummy;
-    [SerializeField] Button antmodebutton;
-    [SerializeField] Button giantmodebutton;
+    [SerializeField] Button antsizebutton;
+    [SerializeField] Button normalsizebutton;
+    [SerializeField] Button giantsizebutton;
     [SerializeField] Button respawnbutton;
     [SerializeField] Button flymodebutton;
     [SerializeField] Button killdummybutton;
@@ -24,8 +25,9 @@ public class Sandboxpanel : MonoBehaviour
         flymodebutton.onClick.AddListener(MCC.mcc.ToggleFlyMode);
         killdummybutton.onClick.AddListener(dummy.Die);
         resetdummybutton.onClick.AddListener(dummy.Respawn);
-        antmodebutton.onClick.AddListener(Setscaleheroant);
-        giantmodebutton.onClick.AddListener(Setscaleherogiant);
+        antsizebutton.onClick.AddListener(Setscaleheroant);
+        normalsizebutton.onClick.AddListener(Setscaleheronormal);
+        giantsizebutton.onClick.AddListener(Setscaleherogiant);
         setmaxhpbutton.onClick.AddListener(Setmaxhp);
         setmaxstaminabutton.onClick.AddListener(Setmaxstamina);
     }
@@ -44,6 +46,10 @@ public class Sandboxpanel : MonoBehaviour
     void Setscaleherogiant()
     {
         MCC.mcc.Setscale(1.3f);
+    }
+    void Setscaleheronormal()
+    {
+        MCC.mcc.Setscale(1f);
     }
     void Setscaleheroant()
     {
