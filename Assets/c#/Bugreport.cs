@@ -14,7 +14,7 @@ public class Bugreport : MonoBehaviour, IDamageable
     string webhookURL;
     void Awake()
     {
-        webhookURL = "https://discord.com/api/webhooks/1485618948677566476/_kteQ847J8CwmskaQ3_9XAlDnLU-ei2NBfY1FagaP-zCFQKrYr8YM3AjjrrBHF5xftyh";//yes u can spam my discord server easily having this link BUT why would you? this is a fully free game its fully open source so why? :)
+        webhookURL = "https://discord.com/api/webhooks/1485895722061529088/X9XFOsLLuahf9lg1M3nMqgAMjEgOOD3l1gJk87piSIRndmWaUUBfM1_dYznhLJoq4O6J";
         bugreport = this;
     }
     public void Takedamage(float damage)
@@ -33,7 +33,7 @@ public class Bugreport : MonoBehaviour, IDamageable
 
     IEnumerator PostToDiscord(string text)
     {
-        string json = $"{{\"content\": \"Новый репорт \", \"embeds\": [{{\"title\": \"Отчет о баге\", \"description\": \"{text}\", \"color\": 16711680}}]}}";
+        string json = $"{{\"content\": \"new report \", \"embeds\": [{{\"title\": \"bug or feature suggestion\", \"description\": \"{text}\", \"color\": 16711680}}]}}";
         using UnityWebRequest www = new(webhookURL, "POST");
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
         www.uploadHandler = new UploadHandlerRaw(bodyRaw);
@@ -50,7 +50,7 @@ public class Bugreport : MonoBehaviour, IDamageable
         }
         else
         {
-            infotext.text = "Баг-репорт отправлен в Discord!";
+            infotext.text = "report is uploaded do devs discord";
         }
     }
 }
