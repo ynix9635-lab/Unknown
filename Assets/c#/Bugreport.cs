@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UIElements;
@@ -7,6 +8,8 @@ using UnityEngine.UIElements;
 public class Bugreport : MonoBehaviour, IDamageable
 {
     [SerializeField] GameObject takebugreport;
+    [SerializeField] GameObject webhookinfopanel;
+    [SerializeField] TMP_Text infotext;
     static public Bugreport bugreport;
     string webhookURL;
     void Awake()
@@ -37,5 +40,17 @@ public class Bugreport : MonoBehaviour, IDamageable
         www.downloadHandler = new DownloadHandlerBuffer();
         www.SetRequestHeader("Content-Type", "application/json");
         yield return www.SendWebRequest();
+        webhookinfopanel.SetActive(true);
+        Gamemanagement.gamemanagement.switchactionmap("UI");
+        UnityEngine.Cursor.lockState = CursorLockMode.None;
+        UnityEngine.Cursor.visible = true;
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            infotext.text = www.error;
+        }
+        else
+        {
+            infotext.text = "Баг-репорт отправлен в Discord!";
+        }
     }
 }

@@ -239,6 +239,12 @@ public class MCC : MonoBehaviour, IDamageable
     }
     public void Setscale(float scale)
     {
+        if(scale > 0.3f)
+        {
+            gameObject.SetActive(false);
+            transform.position = transform.position + transform.up;
+            gameObject.SetActive(true);
+        }
         checkboxhalf = checkboxhalfnormal * scale;
         transform.localScale = normalsize * scale;
     }
