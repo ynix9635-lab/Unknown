@@ -18,6 +18,10 @@ public class Sandboxpanel : MonoBehaviour
     [SerializeField] Button settimebutton;
     [SerializeField] Button killenemybutton;
     [SerializeField] Button spawnenemybutton;
+    [SerializeField] Button setspeedmultiplier;
+    [SerializeField] Button moongravitybutton;
+    [SerializeField] Button normalgravitybutton;
+    [SerializeField] Button sungravitybutton;
     [SerializeField] GameObject settimepanel;
     Vector3 scale = new(0.1f,0.1f,0.1f);
 
@@ -35,18 +39,38 @@ public class Sandboxpanel : MonoBehaviour
         setmaxstaminabutton.onClick.AddListener(Setmaxstamina);
         spawnenemybutton.onClick.AddListener(enemy.Spawn);
         killenemybutton.onClick.AddListener(enemy.Die);
+        setspeedmultiplier.onClick.AddListener(Setspeedmultiplier);
+        moongravitybutton.onClick.AddListener(Moongravity);
+        normalgravitybutton.onClick.AddListener(Normalgravity);
+        sungravitybutton.onClick.AddListener(Sungravity);
+    }
+    void Moongravity()
+    {
+        MCC.mcc.Setgravity(5f);
+    }
+    void Normalgravity()
+    {
+        MCC.mcc.Setgravity(20f);
+    }
+    void Sungravity()
+    {
+        MCC.mcc.Setgravity(40f);
     }
     void Settime()
     {
         settimepanel.SetActive(true);
     }
+    void Setspeedmultiplier()
+    {
+        takedata.Takedatastart(false, false);
+    }
     void Setmaxhp()
     {
-        takedata.Takedatastart(true);
+        takedata.Takedatastart(true,false);
     }
     void Setmaxstamina()
     {
-        takedata.Takedatastart(false);
+        takedata.Takedatastart(false,true);
     }
     void Setscaleherogiant()
     {

@@ -2,6 +2,7 @@ using Cinemachine;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,13 +19,12 @@ public class MCC : MonoBehaviour, IDamageable
     Vector3 camright;
     Vector3 movedirection;
     Vector2 moveinput;
-    Vector3 checkboxhalf;
     Vector3 normalsize = new(1f, 1f, 1f);
-    Vector3 checkboxhalfnormal = new(0.1f, 0.004f, 0.1f);
     Vector3 movevector;
     Vector3 inertia;
     Vector3 baseposition = new(0f, 2.5f, 0f);
     Quaternion targetrotation;
+    float spheresize = 0.4f;
     float maxstamina = 100f;
     float stamina;
     float maxhealth = 10f;
@@ -34,6 +34,8 @@ public class MCC : MonoBehaviour, IDamageable
     float laststaminadraintime;
     float speed;
     float g = 20;
+    float speedmultiplier = 1f;
+    const float normalspheresize = 0.4f;
     const float staminarecoveryspeed = 5f;
     const float staminarundrain = -5f;
     const float staminakickdrain = -10f;
@@ -69,7 +71,6 @@ public class MCC : MonoBehaviour, IDamageable
     {
         stamina = maxstamina;
         health = maxhealth;
-        checkboxhalf = checkboxhalfnormal;
         mcc = this;
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
@@ -79,6 +80,12 @@ public class MCC : MonoBehaviour, IDamageable
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+    void OnEnable()
+    {
+        movevector.y = 0;
+        movevector.x = 0;
+        movevector.z = 0;
     }
     public void OnAttack(InputAction.CallbackContext context)
     {
@@ -219,7 +226,7 @@ public class MCC : MonoBehaviour, IDamageable
                 Changestamina(staminajumpdrain);
                 animator.SetTrigger("jump");
                 airjump = true;
-                movevector.y = jh * g * 2f;
+                movevector.y = jh * 20 * 2f;
                 inertia = movevector*1.5f;
                 inertia.y = 0f;
                 lastjumptime = Time.time;
@@ -233,7 +240,7 @@ public class MCC : MonoBehaviour, IDamageable
                 Changestamina(staminajumpdrain);
                 inertia = inertia / 2f + ((moveinput.x * camright + camfwd * moveinput.y) * speed) / 1.5f;
                 inertia.y = 0f;
-                movevector.y = (jh * g * 2f) * ajm;
+                movevector.y = (jh * 20 * 2f) * ajm;
             }
         }
     }
@@ -241,12 +248,14 @@ public class MCC : MonoBehaviour, IDamageable
     {
         if(scale > 0.3f)
         {
-            gameObject.SetActive(false);
-            transform.position = transform.position + transform.up;
-            gameObject.SetActive(true);
+            controller.Move(baseposition - transform.position);
         }
-        checkboxhalf = checkboxhalfnormal * scale;
         transform.localScale = normalsize * scale;
+        spheresize = normalspheresize * scale;
+    }
+    public void Setgravity(float value)
+    {
+        g = value;
     }
     public void Takedamage(float damage)
     {
@@ -271,6 +280,10 @@ public class MCC : MonoBehaviour, IDamageable
         stamina += value;
         staminafill.fillAmount = stamina / maxstamina;
         laststaminadraintime = Time.time;
+    }
+     public void Setspeedmultiplier(float speedmultiplier)
+    {
+        this.speedmultiplier = speedmultiplier;
     }
     void Update()
     {
@@ -324,7 +337,7 @@ public class MCC : MonoBehaviour, IDamageable
         camfwd.Normalize();
         camright.y = 0;
         camright.Normalize();
-        inputtovector = ((moveinput.x * camright + camfwd * moveinput.y) * speed);
+        inputtovector = ((moveinput.x * camright + camfwd * moveinput.y) * speed) * speedmultiplier;
         if (animator.GetCurrentAnimatorStateInfo(0).IsTag("jump") && !animator.GetAnimatorTransitionInfo(0).IsName("RunJump -> idle") && !animator.GetAnimatorTransitionInfo(0).IsName("JumpOne -> idle"))
         {
             inputtovector.x = 0f;
@@ -337,10 +350,10 @@ public class MCC : MonoBehaviour, IDamageable
             movevector.x = 0f;
         }
         movedirection = (moveinput.y * camfwd + camright * moveinput.x).normalized;
-        isGrounded = Physics.CheckBox(groundCheck.position, checkboxhalf, transform.rotation, ~LayerMask.GetMask("Hero"));
-        if(isGrounded && movevector.y < -10f)
+        isGrounded = Physics.CheckSphere(groundCheck.position, spheresize, ~LayerMask.GetMask("Hero"));
+        if(movevector.y < -25f || transform.position.y < -10f)
         {
-            Takedamage(-(movevector.y*0.2f));
+            Takedamage(maxhealth);
         }
         animator.SetFloat("speed", moveinput.magnitude);
         if (isGrounded && movevector.y <= 0f)

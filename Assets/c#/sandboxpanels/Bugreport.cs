@@ -19,7 +19,7 @@ public class Bugreport : MonoBehaviour, IDamageable
     }
     public void Takedamage(float damage)
     {
-        Gamemanagement.gamemanagement.switchactionmap("UI");
+        Gamemanagement.gamemanagement.Switchactionmap("UI");
         UnityEngine.Cursor.lockState = CursorLockMode.None;
         UnityEngine.Cursor.visible = true;
         Time.timeScale = 0f;
@@ -41,7 +41,7 @@ public class Bugreport : MonoBehaviour, IDamageable
         www.SetRequestHeader("Content-Type", "application/json");
         yield return www.SendWebRequest();
         webhookinfopanel.SetActive(true);
-        Gamemanagement.gamemanagement.switchactionmap("UI");
+        Gamemanagement.gamemanagement.Switchactionmap("UI");
         UnityEngine.Cursor.lockState = CursorLockMode.None;
         UnityEngine.Cursor.visible = true;
         if (www.result != UnityWebRequest.Result.Success)

@@ -6,10 +6,13 @@ public class Mainmenumanagement : MonoBehaviour
 {
     [SerializeField] Button quitgamebutton;
     [SerializeField] Button sandboxbutton;
+    [SerializeField] Button levelsbutton;
+    [SerializeField] GameObject levelspanel;
     private void Awake()
     {
         quitgamebutton.onClick.AddListener(Quitgame);
         sandboxbutton.onClick.AddListener(Loadsandbox);
+        levelsbutton.onClick.AddListener(Levels);
     }
     void Quitgame()
     {
@@ -18,5 +21,9 @@ public class Mainmenumanagement : MonoBehaviour
     void Loadsandbox()
     {
         SceneManager.LoadScene("sandbox");
+    }
+    void Levels()
+    {
+        levelspanel.SetActive(true);
     }
 }

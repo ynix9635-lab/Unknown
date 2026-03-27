@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
     const float detectnotcrouchrange = 10f;
     const float rotatespeed = 10f;
     const float detectangle = 120f;
-    const float attackrange = 1.2f;
+    const float attackrange = 1.25f;
     const float chasespeed = 4f;
     const float g = 20;
     Animator animator;
@@ -33,6 +33,12 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         health = maxhealth;
+    }
+    void OnEnable()
+    {
+        movevector.y = 0;
+        movevector.x = 0;
+        movevector.z = 0;
     }
     public void Spawn()
     {
@@ -136,6 +142,10 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
         else
         {
             movevector.y += -g * Time.deltaTime;
+        }
+        if(movevector.y < -50f || transform.position.y < -10f)
+        {
+            Takedamage(health);
         }
         controller.Move(movevector * Time.deltaTime + (inertia * Time.deltaTime));
         if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("attack") && MCC.mcc.gameObject.activeSelf)

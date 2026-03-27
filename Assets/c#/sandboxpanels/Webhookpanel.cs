@@ -13,7 +13,7 @@ public class Webhookpanel : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        Gamemanagement.gamemanagement.switchactionmap("Player");
+        Gamemanagement.gamemanagement.Switchactionmap("Player");
         webhookpanel.SetActive(false);
     }
 }

@@ -6,17 +6,16 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 [RequireComponent(typeof(MCC))]
+[RequireComponent(typeof(PlayerInput))]
 public class Gamemanagement : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] TMP_Text fps;
-    [SerializeField] Button mainmenubutton;
-    [SerializeField] Button mainmenubutton2;
     [SerializeField] CinemachineVirtualCamera xfreelookcamera;
     [SerializeField] CinemachineFreeLook freelookcamera;
     [SerializeField] CinemachineVirtualCamera povcamera;
     [SerializeField] GameObject menu;
-    [SerializeField] PlayerInput playerInput;
+    PlayerInput playerInput;
     [SerializeField] GameObject deathpanel;
     bool ismenuopen = false;
     float lastfpsshow;
@@ -24,20 +23,19 @@ public class Gamemanagement : MonoBehaviour
     public static Gamemanagement gamemanagement;
     void Awake()
     {
+        playerInput = GetComponent<PlayerInput>();
         gamemanagement = this;
     }
     void Start()
     {
-        mainmenubutton.onClick.AddListener(Loadmainmenu);
-        mainmenubutton2.onClick.AddListener(Loadmainmenu);
         playerInput.SwitchCurrentActionMap("Player");
     }
-    void Loadmainmenu()
+    public void Loadmainmenu()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("mainmenu");
     }
-    public void switchactionmap(string actionmap)
+    public void Switchactionmap(string actionmap)
     {
         playerInput.SwitchCurrentActionMap(actionmap);
     }
@@ -80,9 +78,8 @@ public class Gamemanagement : MonoBehaviour
     }
     public void ResetScene()
     {
-        playerInput.SwitchCurrentActionMap("Player");
         Time.timeScale = 1f;
-        SceneManager.LoadScene("sandbox");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     void Openmenu()
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Deathpanel : MonoBehaviour
+public class SandboxDeathpanel : MonoBehaviour
 {
     [SerializeField] Button restartsandboxbutton;
     [SerializeField] Button respawnbutton;
@@ -11,5 +11,6 @@ public class Deathpanel : MonoBehaviour
         restartsandboxbutton.onClick.AddListener(Gamemanagement.gamemanagement.ResetScene);
         respawnbutton.onClick.AddListener(MCC.mcc.Respawn);
         respawnbutton.onClick.AddListener(Gamemanagement.gamemanagement.OnHeroRespawnButton);
+        mainmenubutton.onClick.AddListener(Gamemanagement.gamemanagement.Loadmainmenu);
     }
 }
