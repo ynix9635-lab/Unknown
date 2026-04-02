@@ -35,6 +35,8 @@ public class MCC : MonoBehaviour, IDamageable
     float speed;
     float g = 20;
     float speedmultiplier = 1f;
+    float lastgroundedtime;
+    const float stillgrounded = 0.2f;
     const float normalspheresize = 0.4f;
     const float staminarecoveryspeed = 5f;
     const float staminarundrain = -5f;
@@ -56,6 +58,7 @@ public class MCC : MonoBehaviour, IDamageable
     bool isGrounded;
     bool iskickcd = true;
     bool isjumpcd = true;
+    bool canattack = true;
     public bool iscrouch { get; private set; }
     [SerializeField] Transform groundCheck;
     [SerializeField] Image jumpcdfill;
@@ -89,17 +92,12 @@ public class MCC : MonoBehaviour, IDamageable
     }
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.performed && ((!animator.GetCurrentAnimatorStateInfo(0).IsName("Attack")
-            && !animator.GetAnimatorTransitionInfo(0).IsName("idle -> Attack")
-            && !animator.GetAnimatorTransitionInfo(0).IsName("walk -> Attack")
-            && !animator.GetAnimatorTransitionInfo(0).IsName("Crouchidle -> Attack")
-            && !animator.GetAnimatorTransitionInfo(0).IsName("CrouchWalk -> Attack"))
-            || animator.GetAnimatorTransitionInfo(0).IsName("Attack -> idle"))
-            && stamina > 0)
+        if (context.performed && canattack && stamina > 0)
         {
             Changestamina(staminattackdrain);
             iscrouch = false;
             animator.SetTrigger("attack");
+            canattack = false;
             animator.SetBool("crouch", false);
         }
     }
@@ -219,7 +217,7 @@ public class MCC : MonoBehaviour, IDamageable
         }
         if (context.performed && stamina > 0 && !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
         {
-            if (isGrounded && Time.time - lastjumptime > jumpcd)
+            if ((isGrounded || Time.time - lastgroundedtime < stillgrounded)&& Time.time - lastjumptime > jumpcd)
             {
                 isjumpcd = true;
                 jumpcdicon.SetActive(true);
@@ -266,7 +264,11 @@ public class MCC : MonoBehaviour, IDamageable
             Die();
         }
     }
-    void Die()
+    void CanAttack()
+    {
+        canattack = true;
+    }
+    public void Die()
     {
         animator.SetTrigger("Death");
     }
@@ -344,13 +346,17 @@ public class MCC : MonoBehaviour, IDamageable
             inputtovector.z = 0f;
         }
         movevector = inputtovector + (movevector.y * transform.up) + inertia;
-        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+        if (animator.GetCurrentAnimatorStateInfo(1).IsTag("Attack"))
         {
             movevector.z = 0f;
             movevector.x = 0f;
         }
         movedirection = (moveinput.y * camfwd + camright * moveinput.x).normalized;
         isGrounded = Physics.CheckSphere(groundCheck.position, spheresize, ~LayerMask.GetMask("Hero"));
+        if (isGrounded)
+        {
+            lastgroundedtime = Time.time;
+        }
         if(movevector.y < -25f || transform.position.y < -10f)
         {
             Takedamage(maxhealth);

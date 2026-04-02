@@ -22,11 +22,13 @@ public class Sandboxpanel : MonoBehaviour
     [SerializeField] Button moongravitybutton;
     [SerializeField] Button normalgravitybutton;
     [SerializeField] Button sungravitybutton;
+    [SerializeField] Button diebutton;
     [SerializeField] GameObject settimepanel;
     Vector3 scale = new(0.1f,0.1f,0.1f);
 
     void Start()
     {
+        diebutton.onClick.AddListener(MCC.mcc.Die);
         settimebutton.onClick.AddListener(Settime);
         respawnbutton.onClick.AddListener(Gamemanagement.gamemanagement.ResetScene);
         flymodebutton.onClick.AddListener(MCC.mcc.ToggleFlyMode);
