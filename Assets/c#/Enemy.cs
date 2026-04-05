@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
     CharacterController controller;
     bool isgrounded;
     bool iseeplayer;
+    bool canattack = true;
     float health;
     float detectrange;
     const float detectcrouchrange = 5f;
@@ -49,6 +50,10 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
         health = maxhealth;
         gameObject.SetActive(true);
     }
+    void CanAttack()
+    {
+        canattack = true;
+    }
     public void Getkicked(float kickpower)
     {
         inertia = MCC.mcc.transform.forward * kickpower;
@@ -68,10 +73,6 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
     void Died()
     {
         gameObject.SetActive(false);
-    }
-    void Attack()
-    {
-        animator.SetTrigger("attack");
     }
     void AI()
     {
@@ -122,7 +123,11 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
         }
         if(Vector3.Distance(transform.position, MCC.mcc.transform.position) <= attackrange && iseeplayer)
         {
-            Attack();
+            if (canattack || !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+            {
+                animator.SetTrigger("attack");
+                canattack = false;
+            }
         }
     }
     void Update()

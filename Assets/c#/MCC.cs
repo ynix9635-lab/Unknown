@@ -8,7 +8,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
-
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(CharacterController))]
 public class MCC : MonoBehaviour, IDamageable
@@ -67,6 +66,7 @@ public class MCC : MonoBehaviour, IDamageable
     [SerializeField] GameObject kickcdicon;
     [SerializeField] Image staminafill;
     [SerializeField] Image hpfill;
+    [SerializeField] GameObject basicsword;
     static public MCC mcc;
 
     //methods
@@ -89,6 +89,18 @@ public class MCC : MonoBehaviour, IDamageable
         movevector.y = 0;
         movevector.x = 0;
         movevector.z = 0;
+    }
+    public void Equipbasicsword()
+    {
+        Unequipweapon();
+        basicsword.SetActive(true);
+        animator.SetInteger("weapon", 1);
+    }
+    public void Unequipweapon()
+    {
+        animator.SetTrigger("SetAnimator");
+        animator.SetInteger("weapon", 0);
+        basicsword.SetActive(false);
     }
     public void OnAttack(InputAction.CallbackContext context)
     {
@@ -289,7 +301,8 @@ public class MCC : MonoBehaviour, IDamageable
     }
     void Update()
     {
-        if(speed == runspeed && moveinput.magnitude > 0)
+        Debug.Log(animator.GetInteger("weapon"));
+        if (speed == runspeed && moveinput.magnitude > 0)
         {
             Changestamina(staminarundrain * Time.deltaTime);
             if(stamina < 0f)

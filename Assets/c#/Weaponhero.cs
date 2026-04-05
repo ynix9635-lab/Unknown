@@ -16,18 +16,18 @@ public class Weaponhero : MonoBehaviour
         holderanimator = holder.GetComponent<Animator>();
         weapon = GetComponent<Collider>();
     }
-    void Enablefistcollider()
+    void Enablecollider()
     {
         alreadyhit.Clear();
         weapon.enabled = true;
     }
-    void Disablefistcollider()
+    void Disablecollider()
     {
         weapon.enabled = false;
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("enemy") && !alreadyhit.Contains(other.gameObject))
+        if (other.CompareTag("enemy") && !alreadyhit.Contains(other.gameObject) && other.isTrigger)
         {
             IDamageable hitobject = other.gameObject.GetComponent<IDamageable>();
             hitobject.Takedamage(damage);
@@ -38,12 +38,12 @@ public class Weaponhero : MonoBehaviour
     {
         if (holderanimator.GetCurrentAnimatorStateInfo(0).IsTag("Attack") && !ishitboxon)
         {
-            Enablefistcollider();
+            Enablecollider();
             ishitboxon=true;
         }
         else if (!holderanimator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
         {
-            Disablefistcollider();
+            Disablecollider();
             ishitboxon = false;
         }
     }

@@ -27,7 +27,7 @@ public class Weaponenemy : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Hero") && !alreadyhit.Contains(other.gameObject))
+        if (other.CompareTag("Hero") && !alreadyhit.Contains(other.gameObject) && other.isTrigger)
         {
             IDamageable hitobject = other.gameObject.GetComponent<IDamageable>();
             hitobject.Takedamage(damage);
