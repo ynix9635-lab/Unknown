@@ -67,6 +67,7 @@ public class MCC : MonoBehaviour, IDamageable
     [SerializeField] Image staminafill;
     [SerializeField] Image hpfill;
     [SerializeField] GameObject basicsword;
+    [SerializeField] GameObject mace;
     static public MCC mcc;
 
     //methods
@@ -95,12 +96,21 @@ public class MCC : MonoBehaviour, IDamageable
         Unequipweapon();
         basicsword.SetActive(true);
         animator.SetInteger("weapon", 1);
+        animator.SetTrigger("SetAnimator");
+    }
+    public void Equipmace()
+    {
+        Unequipweapon();
+        mace.SetActive(true);
+        animator.SetInteger("weapon", 2);
+        animator.SetTrigger("SetAnimator");
     }
     public void Unequipweapon()
     {
         animator.SetTrigger("SetAnimator");
         animator.SetInteger("weapon", 0);
         basicsword.SetActive(false);
+        mace.SetActive(false);
     }
     public void OnAttack(InputAction.CallbackContext context)
     {
@@ -301,7 +311,6 @@ public class MCC : MonoBehaviour, IDamageable
     }
     void Update()
     {
-        Debug.Log(animator.GetInteger("weapon"));
         if (speed == runspeed && moveinput.magnitude > 0)
         {
             Changestamina(staminarundrain * Time.deltaTime);

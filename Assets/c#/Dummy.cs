@@ -4,7 +4,7 @@ public class Dummy : MonoBehaviour, IDamageable, IKickable
 {
     Vector3 baseposition = new(0f, 0f, 5f);
     Vector3 inertia;
-    const float Maxhealth = 10;
+    const float Maxhealth = 100;
     float health = Maxhealth;
     Animator animator;
     void Awake()
