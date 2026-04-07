@@ -11,15 +11,16 @@ public class Povcamerasensitivity : MonoBehaviour
     private void Awake()
     {
         povcamerasensitivity = this;
-    }
-    void Start()
-    {
         povcamera = GetComponent<CinemachineVirtualCamera>();
         pov = povcamera.GetCinemachineComponent<CinemachinePOV>();
     }
     public void Setsensitivity(float sensitivitymultiplier)
     {
-        pov.m_HorizontalAxis.m_MaxSpeed = sensitivitymultiplier*basesensitivity;
+        if (pov == null)
+        {
+            Debug.Log("not found povcamera at ALL");
+        }
+        pov.m_HorizontalAxis.m_MaxSpeed = sensitivitymultiplier * basesensitivity;
         pov.m_VerticalAxis.m_MaxSpeed = sensitivitymultiplier * basesensitivity;
     }
 }

@@ -16,6 +16,7 @@ public class Mainmenumanagement : MonoBehaviour
     }
     void Quitgame()
     {
+        PlayerPrefs.Save();
         Application.Quit();
     }
     void Loadsandbox()

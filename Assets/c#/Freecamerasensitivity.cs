@@ -11,9 +11,6 @@ public class Freecamerasensitivity : MonoBehaviour
     void Awake()
     {
         freecamerasensitivity = this;
-    }
-    void Start()
-    {
         freelookcamera = GetComponent<CinemachineFreeLook>();
     }
     public void Setsensitivity(float sensitivitymultiplier)

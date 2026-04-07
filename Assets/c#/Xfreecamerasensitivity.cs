@@ -11,9 +11,6 @@ public class Xfreecamerasensitivity : MonoBehaviour
     void Awake()
     {
         xfreecamerasensitivity = this;
-    }
-    void Start()
-    {
         xfreelookcamera = GetComponent<CinemachineVirtualCamera>();
         orbitalTransposer = xfreelookcamera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
     }

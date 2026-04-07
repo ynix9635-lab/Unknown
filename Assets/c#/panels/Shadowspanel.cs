@@ -11,40 +11,13 @@ public class Shadowspanel : MonoBehaviour
     [SerializeField] Button highshadowsbutton;
     [SerializeField] Button mediumshadowsbutton;
     [SerializeField] Button lowshadowsbutton;
-    [SerializeField] Light sun;
-    UniversalAdditionalLightData urpsunsettings;
     void Awake()
     {
-        urpsunsettings = sun.GetComponent<UniversalAdditionalLightData>();
-        turnoffshadowsbutton.onClick.AddListener(Turnoffshadows);
-        softshadowsbutton.onClick.AddListener(Softshadows);
-        hardshadowsbutton.onClick.AddListener(Hardshadows);
-        highshadowsbutton.onClick.AddListener(Highshadows);
-        mediumshadowsbutton.onClick.AddListener(Mediumshadows);
-        lowshadowsbutton.onClick.AddListener(Lowshadows);
-    }
-    void Highshadows()
-    {
-        urpsunsettings.softShadowQuality = SoftShadowQuality.High;
-    }
-    void Mediumshadows()
-    {
-        urpsunsettings.softShadowQuality = SoftShadowQuality.Medium;
-    }
-    void Lowshadows()
-    {
-        urpsunsettings.softShadowQuality = SoftShadowQuality.Low;
-    }
-    void Turnoffshadows()
-    {
-        sun.shadows = LightShadows.None;
-    }
-    void Softshadows()
-    {
-        sun.shadows = LightShadows.Soft;
-    }
-    void Hardshadows()
-    {
-        sun.shadows = LightShadows.Hard;
+        turnoffshadowsbutton.onClick.AddListener(Settingsmanagement.settingsmanagement.Turnoffshadows);
+        softshadowsbutton.onClick.AddListener(Settingsmanagement.settingsmanagement.Softshadows);
+        hardshadowsbutton.onClick.AddListener(Settingsmanagement.settingsmanagement.Hardshadows);
+        highshadowsbutton.onClick.AddListener(Settingsmanagement.settingsmanagement.Highshadows);
+        mediumshadowsbutton.onClick.AddListener(Settingsmanagement.settingsmanagement.Mediumshadows);
+        lowshadowsbutton.onClick.AddListener(Settingsmanagement.settingsmanagement.Lowshadows);
     }
 }
