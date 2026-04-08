@@ -13,15 +13,29 @@ public class Settingsmanagement : MonoBehaviour
     {
         urpsunsettings = sun.GetComponent<UniversalAdditionalLightData>();
         settingsmanagement = this;
-        savebutton.onClick.AddListener(Savesettings);
     }
     void Start()
     {
+        savebutton.onClick.AddListener(Savesettings);
         LoadSettings();
         savebutton.onClick.AddListener(Savesettings);
     }
     void LoadSettings()
     {
+        switch (PlayerPrefs.GetString("defaultcam"))
+        {
+            case "Free":
+                Gamemanagement.gamemanagement.Freecam();
+                break;
+            case "Xfree":
+                Gamemanagement.gamemanagement.Xfreecam();
+                break;
+            case "Pov":
+                Gamemanagement.gamemanagement.Povcam();
+                break;
+            default:
+                break;
+        }
         Setvsync(PlayerPrefs.GetInt("vsyncsetting"));
         SetSensitivity(PlayerPrefs.GetFloat("sensitivity"));
         switch (PlayerPrefs.GetString("SoftShadowQuality"))

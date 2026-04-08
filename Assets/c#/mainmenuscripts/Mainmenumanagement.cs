@@ -8,11 +8,14 @@ public class Mainmenumanagement : MonoBehaviour
     [SerializeField] Button sandboxbutton;
     [SerializeField] Button levelsbutton;
     [SerializeField] GameObject levelspanel;
-    private void Awake()
+    [SerializeField] Button settingsbutton;
+    [SerializeField] GameObject settingspanel;
+    private void Start()
     {
         quitgamebutton.onClick.AddListener(Quitgame);
         sandboxbutton.onClick.AddListener(Loadsandbox);
         levelsbutton.onClick.AddListener(Levels);
+        settingsbutton.onClick.AddListener(Settingspanel);
     }
     void Quitgame()
     {
@@ -23,8 +26,19 @@ public class Mainmenumanagement : MonoBehaviour
     {
         SceneManager.LoadScene("sandbox");
     }
+    void Settingspanel()
+    {
+        Closeallpanels();
+        settingspanel.SetActive(true);
+    }
     void Levels()
     {
+        Closeallpanels();
         levelspanel.SetActive(true);
+    }
+    void Closeallpanels()
+    {
+        levelspanel.SetActive(false);
+        settingspanel.SetActive(false);
     }
 }

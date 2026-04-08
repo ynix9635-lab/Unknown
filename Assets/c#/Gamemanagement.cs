@@ -39,34 +39,46 @@ public class Gamemanagement : MonoBehaviour
     {
         playerInput.SwitchCurrentActionMap(actionmap);
     }
+    public void Xfreecam()
+    {
+        xfreelookcamera.Priority = 1;
+        freelookcamera.Priority = 0;
+        povcamera.Priority = 0;
+        Camerascript.camerascript.SwitchPOVmode(false);
+    }
+    public void Freecam()
+    {
+        xfreelookcamera.Priority = 0;
+        freelookcamera.Priority = 1;
+        povcamera.Priority = 0;
+        Camerascript.camerascript.SwitchPOVmode(false);
+    }
+    public void Povcam()
+    {
+        xfreelookcamera.Priority = 0;
+        freelookcamera.Priority = 0;
+        povcamera.Priority = 1;
+        Camerascript.camerascript.SwitchPOVmode(true);
+    }
     public void Onxfreecam(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            xfreelookcamera.Priority = 1;
-            freelookcamera.Priority = 0;
-            povcamera.Priority = 0;
-            Camerascript.camerascript.SwitchPOVmode(false);
+            Xfreecam();
         }
     }
     public void Onfreecam(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            xfreelookcamera.Priority = 0;
-            freelookcamera.Priority = 1;
-            povcamera.Priority = 0;
-            Camerascript.camerascript.SwitchPOVmode(false);
+            Freecam();
         }
     }
     public void Onpovcam(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            xfreelookcamera.Priority = 0;
-            freelookcamera.Priority = 0;
-            povcamera.Priority = 1;
-            Camerascript.camerascript.SwitchPOVmode(true);
+            Povcam();
         }
     }
     public void OnMenu(InputAction.CallbackContext context)
