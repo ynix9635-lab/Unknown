@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class Settingsmanagement : MonoBehaviour
 {
     [SerializeField] Button savebutton;
     [SerializeField] Light sun;
+    UniversalRenderPipelineAsset urpasset;
     UniversalAdditionalLightData urpsunsettings;
     public static Settingsmanagement settingsmanagement;
     void Awake()
@@ -16,6 +18,7 @@ public class Settingsmanagement : MonoBehaviour
     }
     void Start()
     {
+        urpasset = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
         savebutton.onClick.AddListener(Savesettings);
         LoadSettings();
         savebutton.onClick.AddListener(Savesettings);
@@ -36,8 +39,11 @@ public class Settingsmanagement : MonoBehaviour
             default:
                 break;
         }
+        SetRenderscale(PlayerPrefs.GetFloat("renderscale",1f));
+        Setmsaa(PlayerPrefs.GetInt("msaa",1));
+        Setshadowsdistance(PlayerPrefs.GetFloat("shadowsdistance"));
         Setvsync(PlayerPrefs.GetInt("vsyncsetting"));
-        SetSensitivity(PlayerPrefs.GetFloat("sensitivity"));
+        SetSensitivity(PlayerPrefs.GetFloat("sensitivity",0.5f));
         switch (PlayerPrefs.GetString("SoftShadowQuality"))
         {
             case "High":
@@ -67,6 +73,38 @@ public class Settingsmanagement : MonoBehaviour
                 break;
         }
     }
+    public void SetRecommendedSettings()
+    {
+        SetRenderscale(1f);
+        Setvsync(1);
+        switch (SystemInfo.graphicsMemorySize)
+        {
+            case <= 1024:
+                SetRenderscale(0.9f);
+                Setmsaa(2);
+                Turnoffshadows();
+                break;
+            case <= 2048:
+                Setmsaa(4);
+                Hardshadows();
+                Setshadowsdistance(30f);
+                break;
+            default:
+                Setmsaa(8);
+                Softshadows();
+                Highshadows();
+                Setshadowsdistance(50f);
+                break;
+        }
+    }
+    public void Setmsaa(int value)
+    {
+        if (value == 1 || value == 2 || value == 4 || value == 8)
+        {
+            Debug.Log(value);
+            urpasset.msaaSampleCount = value;
+        }
+    }
     public void Savesettings()
     {
         PlayerPrefs.Save();
@@ -76,13 +114,25 @@ public class Settingsmanagement : MonoBehaviour
         QualitySettings.vSyncCount = vsyncsetting;
         PlayerPrefs.SetInt("vsyncsetting",vsyncsetting);
     }
+    public void SetRenderscale(float value)
+    {
+        if(value > 0)
+        {
+            urpasset.renderScale = value;
+            PlayerPrefs.SetFloat("renderscale", value);
+        }
+    }
+    public void Setshadowsdistance(float value)
+    {
+        urpasset.shadowDistance = value;
+        PlayerPrefs.SetFloat("shadowsdistance",value);
+    }
     public void SetSensitivity(float value)
     {
         Povcamerasensitivity.povcamerasensitivity.Setsensitivity(value);
         Freecamerasensitivity.freecamerasensitivity.Setsensitivity(value);
         Xfreecamerasensitivity.xfreecamerasensitivity.Setsensitivity(value);
         PlayerPrefs.SetFloat("sensitivity",value);
-        Debug.Log(PlayerPrefs.GetFloat("sensitivity"));
     }
     public void Highshadows()
     {

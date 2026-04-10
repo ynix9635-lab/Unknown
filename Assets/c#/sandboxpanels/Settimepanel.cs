@@ -12,7 +12,7 @@ public class Settimepanel : MonoBehaviour
     [SerializeField] Button midnightbutton;
     [SerializeField] GameObject settimepanel;
     [SerializeField] Light sun;
-    private void Awake()
+    private void Start()
     {
         daybutton.onClick.AddListener(Settimeday);
         noonbutton.onClick.AddListener(Settimenoon);

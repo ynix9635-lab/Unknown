@@ -1,13 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 public class Camerapanel : MonoBehaviour
 {
     [SerializeField] Slider sensitivityslider;
     [SerializeField] TMP_InputField sensitivityinput;
     float sensitivity;
-    void Awake()
+    void Start()
     {
+        sensitivityslider.value = PlayerPrefs.GetFloat("sensitivity");
+        sensitivityinput.text = Convert.ToString(PlayerPrefs.GetFloat("sensitivity"));
         sensitivityslider.onValueChanged.AddListener(Sensitivityscrollchanged);
         sensitivityinput.onValueChanged.AddListener(Sensitivityinputchanged);
     }

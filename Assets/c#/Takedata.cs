@@ -13,7 +13,7 @@ public class Takedata : MonoBehaviour
     [SerializeField] GameObject negnumbernotice;
     [SerializeField] GameObject formatexception;
     [SerializeField] GameObject overflowexception;
-    public void Awake()
+    public void Start()
     {
         applybutton.onClick.AddListener(Takedataapply);
     }

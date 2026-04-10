@@ -11,7 +11,7 @@ public class Shadowspanel : MonoBehaviour
     [SerializeField] Button highshadowsbutton;
     [SerializeField] Button mediumshadowsbutton;
     [SerializeField] Button lowshadowsbutton;
-    void Awake()
+    void Start()
     {
         turnoffshadowsbutton.onClick.AddListener(Settingsmanagement.settingsmanagement.Turnoffshadows);
         softshadowsbutton.onClick.AddListener(Settingsmanagement.settingsmanagement.Softshadows);

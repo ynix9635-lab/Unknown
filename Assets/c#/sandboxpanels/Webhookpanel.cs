@@ -5,7 +5,7 @@ public class Webhookpanel : MonoBehaviour
 {
     [SerializeField] Button okbutton;
     [SerializeField] GameObject webhookpanel;
-    void Awake()
+    void Start()
     {
         okbutton.onClick.AddListener(Onok);
     }

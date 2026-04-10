@@ -8,7 +8,7 @@ public class Bugreportpanel : MonoBehaviour
     [SerializeField] GameObject bugreportpanel;
     [SerializeField] TMP_InputField inputField;
     [SerializeField] Button applybutton;
-    void Awake()
+    void Start()
     {
         applybutton.onClick.AddListener(Onapply);
     }

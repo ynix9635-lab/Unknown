@@ -6,7 +6,7 @@ public class Fpspanel : MonoBehaviour
 {
     [SerializeField] Button vsynconbutton;
     [SerializeField] Button vsyncoffbutton;
-    private void Awake()
+    private void Start()
     {
         vsynconbutton.onClick.AddListener(Vsyncon);
         vsyncoffbutton.onClick.AddListener(Vsyncoff);
