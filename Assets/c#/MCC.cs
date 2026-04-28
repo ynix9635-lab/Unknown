@@ -51,14 +51,23 @@ public class MCC : MonoBehaviour, IDamageable
     const float jh = 0.15f;
     const float ajm = 1.1f;
     const float rotatespeed = 10f;
-    Animator animator;
-    CharacterController controller;
     bool airjump = true;
     bool isGrounded;
     bool iskickcd = true;
     bool isjumpcd = true;
     bool canattack = true;
-    public bool iscrouch { get; private set; }
+    public bool Iscrouch { get; private set; }
+    static readonly int WeaponHash = Animator.StringToHash("weapon");
+    static readonly int SetAnimatorHash = Animator.StringToHash("setanimator");
+    static readonly int DeathHash = Animator.StringToHash("death");
+    static readonly int CrouchHash = Animator.StringToHash("crouch");
+    static readonly int AttackHash = Animator.StringToHash("attack");
+    static readonly int IsrunningHash = Animator.StringToHash("isrunning");
+    static readonly int KickHash = Animator.StringToHash("kick");
+    static readonly int JumpHash = Animator.StringToHash("jump");
+    static readonly int IsdyingHash = Animator.StringToHash("isdying");
+    Animator animator;
+    CharacterController controller;
     [SerializeField] Transform groundCheck;
     [SerializeField] Image jumpcdfill;
     [SerializeField] Image kickcdfill;
@@ -67,15 +76,16 @@ public class MCC : MonoBehaviour, IDamageable
     [SerializeField] Image staminafill;
     [SerializeField] Image hpfill;
     [SerializeField] GameObject basicsword;
+    [SerializeField] GameObject royalgreatsword;
     [SerializeField] GameObject mace;
-    static public MCC mcc;
+    static public MCC reference;
 
     //methods
     void Awake()
     {
         stamina = maxstamina;
         health = maxhealth;
-        mcc = this;
+        reference = this;
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         speed = walkspeed;
@@ -91,36 +101,51 @@ public class MCC : MonoBehaviour, IDamageable
         movevector.x = 0;
         movevector.z = 0;
     }
+    public void Onequip(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Gamemanagement.reference.OnEquip();
+        }
+    }
     public void Equipbasicsword()
     {
         Unequipweapon();
         basicsword.SetActive(true);
-        animator.SetInteger("weapon", 1);
-        animator.SetTrigger("SetAnimator");
+        animator.SetInteger(WeaponHash, 1);
+        animator.SetTrigger(SetAnimatorHash);
     }
     public void Equipmace()
     {
         Unequipweapon();
         mace.SetActive(true);
-        animator.SetInteger("weapon", 2);
-        animator.SetTrigger("SetAnimator");
+        animator.SetInteger(WeaponHash, 2);
+        animator.SetTrigger(SetAnimatorHash);
+    }
+    public void Equiproyalgreatsword()
+    {
+        Unequipweapon();
+        royalgreatsword.SetActive(true);
+        animator.SetInteger(WeaponHash, 3);
+        animator.SetTrigger(SetAnimatorHash);
     }
     public void Unequipweapon()
     {
-        animator.SetTrigger("SetAnimator");
-        animator.SetInteger("weapon", 0);
+        animator.SetTrigger(SetAnimatorHash);
+        animator.SetInteger(WeaponHash, 0);
         basicsword.SetActive(false);
         mace.SetActive(false);
+        royalgreatsword.SetActive(false);
     }
     public void OnAttack(InputAction.CallbackContext context)
     {
         if (context.performed && canattack && stamina > 0)
         {
             Changestamina(staminattackdrain);
-            iscrouch = false;
-            animator.SetTrigger("attack");
+            Iscrouch = false;
+            animator.SetTrigger(AttackHash);
             canattack = false;
-            animator.SetBool("crouch", false);
+            animator.SetBool(CrouchHash, false);
         }
     }
     public void Setmaxhp(float value)
@@ -151,17 +176,17 @@ public class MCC : MonoBehaviour, IDamageable
     {
         if (context.performed)
         {
-            if (!iscrouch)
+            if (!Iscrouch)
             {
                 speed = crouchspeed;
-                iscrouch = true;
-                animator.SetBool("crouch", true);
+                Iscrouch = true;
+                animator.SetBool(CrouchHash, true);
             }
             else
             {
                 speed = walkspeed;
-                iscrouch = false;
-                animator.SetBool("crouch", false);
+                Iscrouch = false;
+                animator.SetBool(CrouchHash, false);
             }
         }
     }
@@ -179,16 +204,16 @@ public class MCC : MonoBehaviour, IDamageable
             }
             return;
         }
-        if (!iscrouch)
+        if (!Iscrouch)
         {
             if (context.started || context.performed)
             {
-                animator.SetBool("isrunning", true);
+                animator.SetBool(IsrunningHash, true);
                 speed = runspeed;
             }
             else
             {
-                animator.SetBool("isrunning", false);
+                animator.SetBool(IsrunningHash, false);
                 speed = walkspeed;
             }
         }
@@ -217,10 +242,10 @@ public class MCC : MonoBehaviour, IDamageable
             Changestamina(staminakickdrain);
             kickcdicon.SetActive(true);
             lastkicktime = Time.time;
-            iscrouch = false;
+            Iscrouch = false;
             iskickcd = true;
-            animator.SetBool("crouch", false);
-            animator.SetTrigger("kick");
+            animator.SetBool(CrouchHash, false);
+            animator.SetTrigger(KickHash);
         }
     }
     public void OnJump(InputAction.CallbackContext context)
@@ -244,19 +269,19 @@ public class MCC : MonoBehaviour, IDamageable
                 isjumpcd = true;
                 jumpcdicon.SetActive(true);
                 Changestamina(staminajumpdrain);
-                animator.SetTrigger("jump");
+                animator.SetTrigger(JumpHash);
                 airjump = true;
                 movevector.y = jh * 20 * 2f;
                 inertia = movevector*1.5f;
                 inertia.y = 0f;
                 lastjumptime = Time.time;
-                iscrouch = false;
-                animator.SetBool("crouch", false);
+                Iscrouch = false;
+                animator.SetBool(CrouchHash, false);
             }
             else if (stamina > 0 && airjump && Time.time - lastjumptime > jumpinterval && !isGrounded)
             {
                 airjump = false;
-                animator.SetTrigger("jump");
+                animator.SetTrigger(JumpHash);
                 Changestamina(staminajumpdrain);
                 inertia = inertia / 2f + ((moveinput.x * camright + camfwd * moveinput.y) * speed) / 1.5f;
                 inertia.y = 0f;
@@ -292,11 +317,13 @@ public class MCC : MonoBehaviour, IDamageable
     }
     public void Die()
     {
-        animator.SetTrigger("Death");
+        animator.SetBool(IsdyingHash,true);
+        animator.SetTrigger(DeathHash);
     }
     void Died()
     {
-        Gamemanagement.gamemanagement.OnHeroDeath();
+        animator.SetBool(IsdyingHash, false);
+        Gamemanagement.reference.OnHeroDeath();
         gameObject.SetActive(false);
     }
     void Changestamina(float value)
@@ -317,7 +344,7 @@ public class MCC : MonoBehaviour, IDamageable
             if(stamina < 0f)
             {
                 speed = walkspeed;
-                animator.SetBool("isrunning",false);
+                animator.SetBool(IsrunningHash, false);
             }
         }
         else if(stamina < maxstamina)
@@ -368,7 +395,7 @@ public class MCC : MonoBehaviour, IDamageable
             inputtovector.z = 0f;
         }
         movevector = inputtovector + (movevector.y * transform.up) + inertia;
-        if (animator.GetCurrentAnimatorStateInfo(1).IsTag("Attack"))
+        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
         {
             movevector.z = 0f;
             movevector.x = 0f;

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Camera))]
 public class Camerascript : MonoBehaviour
 {
     Camera cam;
@@ -9,9 +10,6 @@ public class Camerascript : MonoBehaviour
     private void Awake()
     {
         camerascript = this;
-    }
-    private void Start()
-    {
         cam = GetComponent<Camera>();
     }
     public void SwitchPOVmode(bool isfirstperson)

@@ -41,7 +41,7 @@ public class Graphicspanel : MonoBehaviour
             }
             else
             {
-                Settingsmanagement.settingsmanagement.SetRenderscale(value);
+                Settingsmanagement.reference.SetRenderscale(value);
             }
         }
         catch (FormatException)
@@ -58,22 +58,22 @@ public class Graphicspanel : MonoBehaviour
     {
         value = value * 100;
         shadowsrenderingdistanceamount.text = Convert.ToString(value);
-        Settingsmanagement.settingsmanagement.Setshadowsdistance(value);
+        Settingsmanagement.reference.Setshadowsdistance(value);
     }
     void Msaa1()
     {
-        Settingsmanagement.settingsmanagement.Setmsaa(1);
+        Settingsmanagement.reference.Setmsaa(1);
     }
     void Msaa2()
     {
-        Settingsmanagement.settingsmanagement.Setmsaa(2);
+        Settingsmanagement.reference.Setmsaa(2);
     }
     void Msaa4()
     {
-        Settingsmanagement.settingsmanagement.Setmsaa(4);
+        Settingsmanagement.reference.Setmsaa(4);
     }
     void Msaa8()
     {
-        Settingsmanagement.settingsmanagement.Setmsaa(8);
+        Settingsmanagement.reference.Setmsaa(8);
     }
 }

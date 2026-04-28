@@ -16,7 +16,7 @@ public class Bugreportpanel : MonoBehaviour
     {
         Bugreport.bugreport.SendBugReport(inputField.text);
         Time.timeScale = 1f;
-        Gamemanagement.gamemanagement.Switchactionmap("Player");
+        Gamemanagement.reference.Switchactionmap("Player");
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         bugreportpanel.SetActive(false);

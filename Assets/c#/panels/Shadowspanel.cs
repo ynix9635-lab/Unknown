@@ -13,11 +13,11 @@ public class Shadowspanel : MonoBehaviour
     [SerializeField] Button lowshadowsbutton;
     void Start()
     {
-        turnoffshadowsbutton.onClick.AddListener(Settingsmanagement.settingsmanagement.Turnoffshadows);
-        softshadowsbutton.onClick.AddListener(Settingsmanagement.settingsmanagement.Softshadows);
-        hardshadowsbutton.onClick.AddListener(Settingsmanagement.settingsmanagement.Hardshadows);
-        highshadowsbutton.onClick.AddListener(Settingsmanagement.settingsmanagement.Highshadows);
-        mediumshadowsbutton.onClick.AddListener(Settingsmanagement.settingsmanagement.Mediumshadows);
-        lowshadowsbutton.onClick.AddListener(Settingsmanagement.settingsmanagement.Lowshadows);
+        turnoffshadowsbutton.onClick.AddListener(Sun.reference.Turnoffshadows);
+        softshadowsbutton.onClick.AddListener(Sun.reference.Softshadows);
+        hardshadowsbutton.onClick.AddListener(Sun.reference.Hardshadows);
+        highshadowsbutton.onClick.AddListener(Sun.reference.Highshadows);
+        mediumshadowsbutton.onClick.AddListener(Sun.reference.Mediumshadows);
+        lowshadowsbutton.onClick.AddListener(Sun.reference.Lowshadows);
     }
 }

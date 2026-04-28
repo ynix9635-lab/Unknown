@@ -8,9 +8,9 @@ public class SandboxDeathpanel : MonoBehaviour
     [SerializeField] Button mainmenubutton;
     void Start()
     {
-        restartsandboxbutton.onClick.AddListener(Gamemanagement.gamemanagement.ResetScene);
-        respawnbutton.onClick.AddListener(MCC.mcc.Respawn);
-        respawnbutton.onClick.AddListener(Gamemanagement.gamemanagement.OnHeroRespawnButton);
-        mainmenubutton.onClick.AddListener(Gamemanagement.gamemanagement.Loadmainmenu);
+        restartsandboxbutton.onClick.AddListener(Gamemanagement.reference.ResetScene);
+        respawnbutton.onClick.AddListener(MCC.reference.Respawn);
+        respawnbutton.onClick.AddListener(Gamemanagement.reference.OnHeroRespawnButton);
+        mainmenubutton.onClick.AddListener(Gamemanagement.reference.Loadmainmenu);
     }
 }

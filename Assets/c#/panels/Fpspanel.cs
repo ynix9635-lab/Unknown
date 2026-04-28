@@ -13,12 +13,12 @@ public class Fpspanel : MonoBehaviour
     }
     void Vsyncon()
     {
-        Settingsmanagement.settingsmanagement.Setvsync(1);
+        Settingsmanagement.reference.Setvsync(1);
         Debug.Log("on vsync");
     }
     void Vsyncoff()
     {
-        Settingsmanagement.settingsmanagement.Setvsync(0);
+        Settingsmanagement.reference.Setvsync(0);
         Debug.Log("off vsync");
     }
 }

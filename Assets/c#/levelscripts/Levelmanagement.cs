@@ -17,9 +17,9 @@ public class Levelmanagement : MonoBehaviour
     }
     void Start()
     {
-        restartbutton.onClick.AddListener(Gamemanagement.gamemanagement.ResetScene);
-        mainmenubutton.onClick.AddListener (Gamemanagement.gamemanagement.Loadmainmenu);
-        nextlevelbutton.onClick.AddListener(Gamemanagement.gamemanagement.Loadmainmenu);
+        restartbutton.onClick.AddListener(Gamemanagement.reference.ResetScene);
+        mainmenubutton.onClick.AddListener (Gamemanagement.reference.Loadmainmenu);
+        nextlevelbutton.onClick.AddListener(Gamemanagement.reference.Loadmainmenu);
     }
     public void Progress()
     {
@@ -28,7 +28,7 @@ public class Levelmanagement : MonoBehaviour
         if(enemykilled >= enemycount)
         {
             completelevelpanel.SetActive(true);
-            Gamemanagement.gamemanagement.Switchactionmap("UI");
+            Gamemanagement.reference.Switchactionmap("UI");
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             Time.timeScale = 0f;

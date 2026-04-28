@@ -7,14 +7,11 @@ using UnityEngine.UI;
 public class Settingsmanagement : MonoBehaviour
 {
     [SerializeField] Button savebutton;
-    [SerializeField] Light sun;
     UniversalRenderPipelineAsset urpasset;
-    UniversalAdditionalLightData urpsunsettings;
-    public static Settingsmanagement settingsmanagement;
+    public static Settingsmanagement reference;
     void Awake()
     {
-        urpsunsettings = sun.GetComponent<UniversalAdditionalLightData>();
-        settingsmanagement = this;
+        reference = this;
     }
     void Start()
     {
@@ -28,13 +25,13 @@ public class Settingsmanagement : MonoBehaviour
         switch (PlayerPrefs.GetString("defaultcam"))
         {
             case "Free":
-                Gamemanagement.gamemanagement.Freecam();
+                Gamemanagement.reference.Freecam();
                 break;
             case "Xfree":
-                Gamemanagement.gamemanagement.Xfreecam();
+                Gamemanagement.reference.Xfreecam();
                 break;
             case "Pov":
-                Gamemanagement.gamemanagement.Povcam();
+                Gamemanagement.reference.Povcam();
                 break;
             default:
                 break;
@@ -47,13 +44,13 @@ public class Settingsmanagement : MonoBehaviour
         switch (PlayerPrefs.GetString("SoftShadowQuality"))
         {
             case "High":
-                Highshadows();
+                Sun.reference.Highshadows();
                 break;
             case "Medium":
-                Mediumshadows();
+                Sun.reference.Mediumshadows();
                 break;
             case "Low":
-                Lowshadows();
+                Sun.reference.Lowshadows();
                 break;
             default:
                 break;
@@ -61,13 +58,13 @@ public class Settingsmanagement : MonoBehaviour
         switch (PlayerPrefs.GetString("LightShadows"))
         {
             case "None":
-                Turnoffshadows();
+                Sun.reference.Turnoffshadows();
                 break;
             case "Soft":
-                Softshadows();
+                Sun.reference.Softshadows();
                 break;
             case "hard":
-                Hardshadows();
+                Sun.reference.Hardshadows();
                 break;
             default:
                 break;
@@ -82,17 +79,17 @@ public class Settingsmanagement : MonoBehaviour
             case <= 1024:
                 SetRenderscale(0.9f);
                 Setmsaa(2);
-                Turnoffshadows();
+                Sun.reference.Turnoffshadows();
                 break;
             case <= 2048:
                 Setmsaa(4);
-                Hardshadows();
+                Sun.reference.Hardshadows();
                 Setshadowsdistance(30f);
                 break;
             default:
                 Setmsaa(8);
-                Softshadows();
-                Highshadows();
+                Sun.reference.Softshadows();
+                Sun.reference.Highshadows();
                 Setshadowsdistance(50f);
                 break;
         }
@@ -101,7 +98,6 @@ public class Settingsmanagement : MonoBehaviour
     {
         if (value == 1 || value == 2 || value == 4 || value == 8)
         {
-            Debug.Log(value);
             urpasset.msaaSampleCount = value;
         }
     }
@@ -133,35 +129,5 @@ public class Settingsmanagement : MonoBehaviour
         Freecamerasensitivity.freecamerasensitivity.Setsensitivity(value);
         Xfreecamerasensitivity.xfreecamerasensitivity.Setsensitivity(value);
         PlayerPrefs.SetFloat("sensitivity",value);
-    }
-    public void Highshadows()
-    {
-        urpsunsettings.softShadowQuality = SoftShadowQuality.High;
-        PlayerPrefs.SetString("SoftShadowQuality", "High");
-    }
-    public void Mediumshadows()
-    {
-        urpsunsettings.softShadowQuality = SoftShadowQuality.Medium;
-        PlayerPrefs.SetString("SoftShadowQuality", "Medium");
-    }
-    public void Lowshadows()
-    {
-        urpsunsettings.softShadowQuality = SoftShadowQuality.Low;
-        PlayerPrefs.SetString("SoftShadowQuality", "Low");
-    }
-    public void Turnoffshadows()
-    {
-        sun.shadows = LightShadows.None;
-        PlayerPrefs.SetString("LightShadows", "None");
-    }
-    public void Softshadows()
-    {
-        sun.shadows = LightShadows.Soft;
-        PlayerPrefs.SetString("LightShadows", "Soft");
-    }
-    public void Hardshadows()
-    {
-        sun.shadows = LightShadows.Hard;
-        PlayerPrefs.SetString("LightShadows", "Hard");
     }
 }

@@ -28,10 +28,10 @@ public class Sandboxpanel : MonoBehaviour
 
     void Start()
     {
-        diebutton.onClick.AddListener(MCC.mcc.Die);
+        diebutton.onClick.AddListener(MCC.reference.Die);
         settimebutton.onClick.AddListener(Settime);
-        respawnbutton.onClick.AddListener(Gamemanagement.gamemanagement.ResetScene);
-        flymodebutton.onClick.AddListener(MCC.mcc.ToggleFlyMode);
+        respawnbutton.onClick.AddListener(Gamemanagement.reference.ResetScene);
+        flymodebutton.onClick.AddListener(MCC.reference.ToggleFlyMode);
         killdummybutton.onClick.AddListener(dummy.Die);
         resetdummybutton.onClick.AddListener(dummy.Respawn);
         antsizebutton.onClick.AddListener(Setscaleheroant);
@@ -48,15 +48,15 @@ public class Sandboxpanel : MonoBehaviour
     }
     void Moongravity()
     {
-        MCC.mcc.Setgravity(5f);
+        MCC.reference.Setgravity(5f);
     }
     void Normalgravity()
     {
-        MCC.mcc.Setgravity(20f);
+        MCC.reference.Setgravity(20f);
     }
     void Sungravity()
     {
-        MCC.mcc.Setgravity(40f);
+        MCC.reference.Setgravity(40f);
     }
     void Settime()
     {
@@ -76,14 +76,14 @@ public class Sandboxpanel : MonoBehaviour
     }
     void Setscaleherogiant()
     {
-        MCC.mcc.Setscale(1.3f);
+        MCC.reference.Setscale(1.3f);
     }
     void Setscaleheronormal()
     {
-        MCC.mcc.Setscale(1f);
+        MCC.reference.Setscale(1f);
     }
     void Setscaleheroant()
     {
-        MCC.mcc.Setscale(0.3f);
+        MCC.reference.Setscale(0.3f);
     }
 }

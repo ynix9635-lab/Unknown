@@ -41,7 +41,7 @@ public class Takedata : MonoBehaviour
                 }
                 else
                 {
-                    MCC.mcc.Setmaxhp(value);
+                    MCC.reference.Setmaxhp(value);
                     takedatapanel.SetActive(false);
                 }
             }
@@ -66,7 +66,7 @@ public class Takedata : MonoBehaviour
                 }
                 else
                 {
-                    MCC.mcc.Setmaxstamina(value);
+                    MCC.reference.Setmaxstamina(value);
                     takedatapanel.SetActive(false);
                 }
             }
@@ -90,7 +90,7 @@ public class Takedata : MonoBehaviour
                 }
                 else
                 {
-                    MCC.mcc.Setspeedmultiplier(value);
+                    MCC.reference.Setspeedmultiplier(value);
                     takedatapanel.SetActive(false);
                 }
             }

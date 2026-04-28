@@ -16,7 +16,7 @@ public class Menu : MonoBehaviour
     void Start()
     {
         equipmentbutton.onClick.AddListener(Equipment);
-        mainmenubutton.onClick.AddListener(Gamemanagement.gamemanagement.Loadmainmenu);
+        mainmenubutton.onClick.AddListener(Gamemanagement.reference.Loadmainmenu);
         sandboxbutton.onClick.AddListener(Sandbox);
         settingsbutton.onClick.AddListener(Settings);
     }

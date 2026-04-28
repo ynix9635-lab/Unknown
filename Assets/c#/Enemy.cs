@@ -56,7 +56,7 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
     }
     public void Getkicked(float kickpower)
     {
-        inertia = MCC.mcc.transform.forward * kickpower;
+        inertia = MCC.reference.transform.forward * kickpower;
     }
     public void Takedamage(float damage)
     {
@@ -76,7 +76,7 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
     }
     void AI()
     {
-        if (MCC.mcc.iscrouch)
+        if (MCC.reference.Iscrouch)
         {
             detectrange = detectcrouchrange;
         }
@@ -84,9 +84,9 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
         {
             detectrange = detectnotcrouchrange;
         }
-        if (Vector3.Distance(transform.position, MCC.mcc.transform.position) < detectrange)
+        if (Vector3.Distance(transform.position, MCC.reference.transform.position) < detectrange)
         {
-            targetdirection = MCC.mcc.transform.position - transform.position;
+            targetdirection = MCC.reference.transform.position - transform.position;
             targetdirection.y = 0;
             if (detectrange == detectcrouchrange)
             {
@@ -112,7 +112,7 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
         {
             iseeplayer = false;
         }
-        if (iseeplayer && Vector3.Distance(transform.position, MCC.mcc.transform.position) > attackrange)
+        if (iseeplayer && Vector3.Distance(transform.position, MCC.reference.transform.position) > attackrange)
         {
             animator.SetBool("ischasing", true);
             controller.Move(chasespeed * Time.deltaTime * transform.forward);
@@ -121,7 +121,7 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
         {
             animator.SetBool("ischasing", false);
         }
-        if(Vector3.Distance(transform.position, MCC.mcc.transform.position) <= attackrange && iseeplayer)
+        if(Vector3.Distance(transform.position, MCC.reference.transform.position) <= attackrange && iseeplayer)
         {
             if (canattack || !animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
             {
@@ -153,7 +153,7 @@ public class Enemy : MonoBehaviour, IDamageable, IKickable
             Takedamage(health);
         }
         controller.Move(movevector * Time.deltaTime + (inertia * Time.deltaTime));
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("attack") && MCC.mcc.gameObject.activeSelf)
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("attack") && MCC.reference.gameObject.activeSelf)
         {
             AI();
         }

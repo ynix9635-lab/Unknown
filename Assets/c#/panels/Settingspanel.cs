@@ -23,7 +23,7 @@ public class Settingspanel : MonoBehaviour
     }
     void Recommended()
     {
-        Settingsmanagement.settingsmanagement.SetRecommendedSettings();
+        Settingsmanagement.reference.SetRecommendedSettings();
     }
     void Closeallpanels()
     {

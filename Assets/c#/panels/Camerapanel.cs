@@ -18,12 +18,12 @@ public class Camerapanel : MonoBehaviour
     {
         sensitivity = value;
         sensitivityinput.text = value.ToString();
-        Settingsmanagement.settingsmanagement.SetSensitivity(sensitivity);
+        Settingsmanagement.reference.SetSensitivity(sensitivity);
     }
     void Sensitivityinputchanged(string value)
     {
         sensitivity = float.Parse(value);
         sensitivityslider.value = float.Parse(value);
-        Settingsmanagement.settingsmanagement.SetSensitivity(sensitivity);
+        Settingsmanagement.reference.SetSensitivity(sensitivity);
     }
 }

@@ -36,7 +36,7 @@ public class Dummy : MonoBehaviour, IDamageable, IKickable
 
     public void Getkicked(float kickpower)
     {
-        inertia = MCC.mcc.transform.forward * kickpower;
+        inertia = MCC.reference.transform.forward * kickpower;
     }
     void Update()
     {

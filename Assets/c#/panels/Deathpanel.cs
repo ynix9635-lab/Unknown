@@ -6,7 +6,7 @@ public class Deathpanel : MonoBehaviour
     [SerializeField] Button mainmenubutton;
     void Start()
     {
-        restartlevelbutton.onClick.AddListener(Gamemanagement.gamemanagement.ResetScene);
-        mainmenubutton.onClick.AddListener(Gamemanagement.gamemanagement.Loadmainmenu);
+        restartlevelbutton.onClick.AddListener(Gamemanagement.reference.ResetScene);
+        mainmenubutton.onClick.AddListener(Gamemanagement.reference.Loadmainmenu);
     }
 }
