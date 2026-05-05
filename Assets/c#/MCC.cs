@@ -2,6 +2,7 @@ using Cinemachine;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -18,6 +19,7 @@ public class MCC : MonoBehaviour, IDamageable
     Vector3 camright;
     Vector3 movedirection;
     Vector2 moveinput;
+    Vector3 rollvector;
     Vector3 normalsize = new(1f, 1f, 1f);
     Vector3 movevector;
     Vector3 inertia;
@@ -68,6 +70,7 @@ public class MCC : MonoBehaviour, IDamageable
     static readonly int IsdyingHash = Animator.StringToHash("isdying");
     Animator animator;
     CharacterController controller;
+    [SerializeField] Collider triggercollider;
     [SerializeField] Transform groundCheck;
     [SerializeField] Image jumpcdfill;
     [SerializeField] Image kickcdfill;
@@ -248,6 +251,13 @@ public class MCC : MonoBehaviour, IDamageable
             animator.SetTrigger(KickHash);
         }
     }
+    public void OnRoll(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            animator.SetTrigger("roll");
+        }
+    }
     public void OnJump(InputAction.CallbackContext context)
     {
         if(g == 0f)
@@ -338,6 +348,18 @@ public class MCC : MonoBehaviour, IDamageable
     }
     void Update()
     {
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsTag("roll"))
+        {
+            rollvector.x = 0;
+            rollvector.y = 0;
+            rollvector.z = 0;
+            triggercollider.enabled = true;
+        }
+        else
+        {
+            triggercollider.enabled = false;
+            rollvector = transform.forward * 5f;
+        }
         if (speed == runspeed && moveinput.magnitude > 0)
         {
             Changestamina(staminarundrain * Time.deltaTime);
@@ -394,7 +416,7 @@ public class MCC : MonoBehaviour, IDamageable
             inputtovector.x = 0f;
             inputtovector.z = 0f;
         }
-        movevector = inputtovector + (movevector.y * transform.up) + inertia;
+        movevector = inputtovector + (movevector.y * transform.up) + inertia + rollvector;
         if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
         {
             movevector.z = 0f;

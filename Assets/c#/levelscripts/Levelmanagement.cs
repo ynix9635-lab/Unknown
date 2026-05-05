@@ -19,7 +19,7 @@ public class Levelmanagement : MonoBehaviour
     {
         restartbutton.onClick.AddListener(Gamemanagement.reference.ResetScene);
         mainmenubutton.onClick.AddListener (Gamemanagement.reference.Loadmainmenu);
-        nextlevelbutton.onClick.AddListener(Gamemanagement.reference.Loadmainmenu);
+        nextlevelbutton.onClick.AddListener(Gamemanagement.reference.Loadnextlevel);
     }
     public void Progress()
     {
@@ -27,8 +27,9 @@ public class Levelmanagement : MonoBehaviour
         progressbarfill.fillAmount = enemykilled/enemycount;
         if(enemykilled >= enemycount)
         {
+            MCC.reference.gameObject.SetActive(false);
             completelevelpanel.SetActive(true);
-            Gamemanagement.reference.Switchactionmap("UI");
+            //Gamemanagement.reference.Switchactionmap("UI");очень сложная ситация видимо из за того что герой выключен и мы не можем обратиться к player input
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             Time.timeScale = 0f;

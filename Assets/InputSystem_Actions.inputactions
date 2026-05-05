@@ -122,6 +122,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "roll",
+                    "type": "Button",
+                    "id": "0596781f-a7d2-49ba-8c3d-5cf7db4031e0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -518,6 +527,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "equipweapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "078730cb-cbb6-4157-b2ad-4c758f6089ce",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "roll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

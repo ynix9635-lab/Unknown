@@ -39,7 +39,7 @@ public class Gamemanagement : MonoBehaviour
     void Start()
     {
         playerInput.SwitchCurrentActionMap("Player"); 
-        Dropweapon[] dropweapons = FindObjectsByType<Dropweapon>(FindObjectsSortMode.None);
+        Dropweapon[] dropweapons = FindObjectsByType<Dropweapon>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         foreach (var dropweapon in dropweapons)
         {
             distances.Add(dropweapon, Vector3.Distance(transform.position,dropweapon.transform.position));
@@ -69,6 +69,11 @@ public class Gamemanagement : MonoBehaviour
             }
         }
         isweaponnear = false;
+    }
+    public void Loadnextlevel()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
     }
     public void Loadmainmenu()
     {
